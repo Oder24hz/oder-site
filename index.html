@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oder24Hz — Оптимизация</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -21,7 +21,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Задний фон — градиент + частицы */
+    /* Задний фон — градиент */
     .background-anim::before {
       content: "";
       position: fixed;
@@ -32,12 +32,22 @@
                   radial-gradient(ellipse at top left, rgba(255,255,255,0.03), transparent),
                   radial-gradient(ellipse at bottom right, rgba(255,255,255,0.04), transparent);
       animation: pulseBG 8s infinite alternate;
-      z-index: -1;
+      z-index: -2;
     }
 
     @keyframes pulseBG {
       0% { filter: brightness(0.8); }
       100% { filter: brightness(1.2); }
+    }
+
+    /* Canvas для частиц */
+    #particles-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* Медленный RGB для "Oder24hz" */
@@ -71,9 +81,17 @@
       border-color: white;
       transform: scale(1.05);
     }
+
+    /* Изменён цвет фона блока цен */
+    .price-section {
+      background-color: #1f2937; /* Tailwind slate-800 */
+    }
   </style>
 </head>
 <body class="text-white background-anim">
+
+  <!-- Canvas для частиц -->
+  <canvas id="particles-canvas"></canvas>
 
   <!-- Header -->
   <header class="text-center py-10 px-4">
@@ -85,9 +103,9 @@
   <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 text-center">
     <h2 class="text-2xl font-semibold mb-4">💻 Что я предлагаю:</h2>
     <ul class="space-y-3 text-base text-white">
-      <li class="glow">✅ Оптимизация Windows — ускорение, удаление мусора</li>
-      <li class="glow">✅ Bluestacks — FPS, плавность, оптимальная сенса</li>
-      <li class="glow">✅ Быстрая настройка программ и драйверов</li>
+      <li class="glow">Оптимизация Windows — ускорение, удаление мусора</li>
+      <li class="glow">Bluestacks — FPS, плавность, оптимальная сенса</li>
+      <li class="glow">Быстрая настройка программ и драйверов</li>
     </ul>
 
     <div class="mt-8">
@@ -99,7 +117,7 @@
   </section>
 
   <!-- Цены -->
-  <section class="max-w-2xl mx-auto px-4 py-8 mt-4 bg-gray-900 rounded-2xl shadow-lg text-center">
+  <section class="price-section max-w-2xl mx-auto px-4 py-8 mt-4 rounded-2xl shadow-lg text-center">
     <h2 class="text-xl font-semibold mb-6">💰 Цены</h2>
     <div class="grid gap-4 text-gray-300 text-base">
       <div class="bg-gray-800 rounded-xl p-4 hover:relative group transition">
@@ -132,5 +150,68 @@
     &copy; 2025 Oder24Hz. Все права защищены.
   </footer>
 
+  <script>
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+
+    // Настройка размера canvas
+    function initCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    initCanvas();
+    window.addEventListener('resize', () => {
+      initCanvas();
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x < 0) this.x = canvas.width;
+        else if (this.x > canvas.width) this.x = 0;
+
+        if (this.y < 0) this.y = canvas.height;
+        else if (this.y > canvas.height) this.y = 0;
+      }
+
+      draw() {
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles(num = 100) {
+      particlesArray = [];
+      for (let i = 0; i < num; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    initParticles(120);
+    animate();
+  </script>
 </body>
 </html>
