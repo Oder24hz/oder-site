@@ -7,31 +7,55 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #000;
-      overflow-x: hidden;
+      margin: 0;
       font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+      animation: fadeIn 1.5s ease;
     }
 
-    /* RGB text animation */
-    .rainbow-text {
-      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-      background-size: 400% 400%;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* RGB для заголовка */
+    .rainbow-header {
+      background: linear-gradient(90deg, red, green, blue);
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rainbow 6s linear infinite;
+      animation: headerRGB 6s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255,255,255,0.2);
     }
 
-    @keyframes rainbow {
+    @keyframes headerRGB {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Tooltip on price hover */
+    /* Медленный альтернативный RGB */
+    .slow-rgb {
+      background: linear-gradient(270deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slowRGB 20s ease infinite;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes slowRGB {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Цена - tooltip */
     .price-tooltip {
       position: relative;
       display: inline-block;
-      cursor: pointer;
     }
 
     .price-tooltip:hover::before {
@@ -42,75 +66,102 @@
       transform: translateX(-50%);
       background: #222;
       color: white;
-      padding: 5px 10px;
+      padding: 4px 10px;
       border-radius: 8px;
-      font-size: 0.8rem;
-      white-space: nowrap;
-      z-index: 10;
+      font-size: 0.75rem;
       opacity: 0.9;
     }
 
-    /* Scroll behavior */
-    html, body {
+    /* Частицы на заднем фоне */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
       height: 100%;
-      overflow-y: auto;
+      z-index: -1;
     }
   </style>
 </head>
-<body class="text-white">
+<body>
 
-  <!-- Контент -->
-  <div class="min-h-screen px-4 sm:px-6 max-w-4xl mx-auto py-10">
+<!-- Частицы -->
+<div id="particles-js"></div>
 
-    <header class="text-center mb-10">
-      <h1 class="text-4xl font-bold rainbow-text mb-3">Oder24Hz</h1>
-      <p class="text-center text-gray-300 text-lg">Лучшая не дорогая оптимизация от Oder24hz для вашего компьютера/ноутбука</p>
-    </header>
+<!-- Контент -->
+<div class="min-h-screen px-4 sm:px-6 max-w-4xl mx-auto py-10">
 
-    <section class="text-center mb-10">
-      <h2 class="text-xl font-semibold mb-4">💻 Что я предлагаю:</h2>
-      <ul class="space-y-3 text-base text-gray-200">
-        <li class="hover:text-green-400 transition">✅ Оптимизация Windows — ускорение, удаление мусора</li>
-        <li class="hover:text-green-400 transition">✅ Bluestacks — FPS, плавность, оптимальная сенса</li>
-        <li class="hover:text-green-400 transition">✅ Быстрая настройка программ и драйверов</li>
-      </ul>
+  <header class="text-center mb-10">
+    <h1 class="text-4xl font-bold rainbow-header mb-3">Oder24Hz</h1>
+    <p class="text-gray-300 text-lg">Лучшая не дорогая оптимизация от Oder24hz для вашего компьютера/ноутбука</p>
+  </header>
 
-      <div class="mt-8">
-        <a href="payment.html"
-           class="inline-block bg-white text-black font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 transition-all duration-300 border border-blue-500 hover:border-blue-700">
-          💳 Купить оптимизацию
-        </a>
-      </div>
-    </section>
+  <section class="text-center mb-10">
+    <h2 class="text-xl font-semibold mb-4">💻 Что я предлагаю:</h2>
+    <ul class="space-y-3 text-base slow-rgb">
+      <li>✅ Оптимизация Windows — ускорение, удаление мусора</li>
+      <li>✅ Bluestacks — FPS, плавность, оптимальная сенса</li>
+      <li>✅ Быстрая настройка программ и драйверов</li>
+    </ul>
 
-    <section class="bg-black/80 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-12">
-      <h2 class="text-xl font-semibold text-center mb-4">💰 Цены</h2>
-      <div class="grid gap-4 text-center text-base">
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
-          🔧 Оптимизация Windows — <span class="font-bold rainbow-text">200₽</span>
-        </div>
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
-          📱 Bluestacks — <span class="font-bold rainbow-text">150₽</span>
-        </div>
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
-          ⚙️ Настройка программ — <span class="font-bold rainbow-text">50₽</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="text-center mb-12">
-      <h2 class="text-xl font-semibold mb-4">⭐ Отзывы клиентов</h2>
-      <p class="text-gray-400 mb-4">Посмотри отзывы от довольных клиентов в Telegram:</p>
-      <a href="https://t.me/Oder_optim" target="_blank"
-         class="inline-block text-white py-2 px-5 rounded-xl border border-blue-500 hover:bg-blue-500 hover:text-black transition-all duration-300">
-        📬 Перейти в Telegram
+    <div class="mt-8">
+      <a href="payment.html"
+         class="inline-block bg-black text-white font-semibold py-3 px-6 rounded-xl border-2 border-white hover:bg-white hover:text-black transition-all duration-300">
+        💳 Купить оптимизацию
       </a>
-    </section>
+    </div>
+  </section>
 
-    <footer class="text-center text-gray-500 text-sm pb-10">
-      &copy; 2025 Oder24Hz. Все права защищены.
-    </footer>
-  </div>
+  <section class="bg-black/80 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-12">
+    <h2 class="text-xl font-semibold text-center mb-4">💰 Цены</h2>
+    <div class="grid gap-4 text-center text-base">
+      <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+        🔧 Оптимизация Windows — <span class="font-bold slow-rgb">200₽</span>
+      </div>
+      <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+        📱 Bluestacks — <span class="font-bold slow-rgb">150₽</span>
+      </div>
+      <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+        ⚙️ Настройка программ — <span class="font-bold slow-rgb">50₽</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="text-center mb-12">
+    <h2 class="text-xl font-semibold mb-4">⭐ Отзывы клиентов</h2>
+    <p class="text-gray-400 mb-4">Посмотри отзывы от довольных клиентов в Telegram:</p>
+    <a href="https://t.me/Oder_optim" target="_blank"
+       class="inline-block text-white py-2 px-5 rounded-xl border-2 border-blue-400 hover:bg-blue-500 hover:text-black transition-all duration-300">
+      📬 Перейти в Telegram
+    </a>
+  </section>
+
+  <footer class="text-center text-gray-500 text-sm pb-10">
+    &copy; 2025 Oder24Hz. Все права защищены.
+  </footer>
+
+</div>
+
+<!-- Подключение частиц -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    particles: {
+      number: { value: 80, density: { enable: true, value_area: 800 } },
+      color: { value: "#ffffff" },
+      shape: { type: "circle" },
+      opacity: { value: 0.2 },
+      size: { value: 2 },
+      move: { enable: true, speed: 1 }
+    },
+    interactivity: {
+      events: {
+        onhover: { enable: false },
+        onclick: { enable: false }
+      }
+    },
+    retina_detect: true
+  });
+</script>
 
 </body>
 </html>
