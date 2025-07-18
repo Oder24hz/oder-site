@@ -5,128 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oder24Hz — Оптимизация</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       background-color: #000;
-      color: white;
-      overflow: hidden;
-      position: relative;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
-    /* RGB text */
-    .rgb-text {
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, #00ff88, #ffffff, #00ffcc);
+    /* RGB text animation */
+    .rainbow-text {
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
       background-size: 400% 400%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rgbFlow 5s ease infinite;
-      text-shadow: 0 0 12px rgba(0, 255, 160, 0.6);
+      animation: rainbow 6s linear infinite;
     }
 
-    @keyframes rgbFlow {
+    @keyframes rainbow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Gray pulse */
-    .pulse-bg::before {
-      content: "";
-      position: absolute;
-      top: -30%;
-      left: -30%;
-      width: 160%;
-      height: 160%;
-      background: radial-gradient(circle, rgba(100,100,100,0.06) 0%, transparent 70%);
-      animation: pulse 6s ease-in-out infinite;
-      z-index: 0;
+    /* Tooltip on price hover */
+    .price-tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.2); opacity: 0.2; }
+    .price-tooltip:hover::before {
+      content: "Самая лучшая цена)))";
+      position: absolute;
+      top: -1.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 10;
+      opacity: 0.9;
     }
 
-    /* Particles */
-    .particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+    /* Scroll behavior */
+    html, body {
       height: 100%;
-      pointer-events: none;
-      background: transparent;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .particles span {
-      position: absolute;
-      display: block;
-      width: 4px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      animation: float 10s linear infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-      }
-      100% {
-        transform: translateY(-10vh) scale(1);
-      }
+      overflow-y: auto;
     }
   </style>
 </head>
-<body class="pulse-bg relative">
-
-  <!-- Particles -->
-  <div class="particles">
-    <!-- 50 random particles -->
-    <script>
-      for (let i = 0; i < 50; i++) {
-        const dot = document.createElement('span');
-        dot.style.left = Math.random() * 100 + 'vw';
-        dot.style.top = Math.random() * 100 + 'vh';
-        dot.style.animationDelay = Math.random() * 10 + 's';
-        document.querySelector('.particles').appendChild(dot);
-      }
-    </script>
-  </div>
-
-  <!-- Вход -->
-  <div id="entry" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
-    <h1 class="rgb-text mb-6 text-center">Oder24Hz</h1>
-    <button onclick="document.getElementById('entry').style.display='none';"
-            class="px-6 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300">
-      🚀 Зайти на сайт
-    </button>
-  </div>
+<body class="text-white">
 
   <!-- Контент -->
-  <div class="relative z-10 px-4 sm:px-6 max-w-4xl mx-auto">
+  <div class="min-h-screen px-4 sm:px-6 max-w-4xl mx-auto py-10">
 
-    <header class="text-center py-10">
-      <h1 class="rgb-text text-4xl mb-4">Oder24Hz</h1>
-      <p class="text-gray-400">Лучшая не дорогая оптимизация от Oder24hz для вашего компьютера/ноутбука</p>
+    <header class="text-center mb-10">
+      <h1 class="text-4xl font-bold rainbow-text mb-3">Oder24Hz</h1>
+      <p class="text-center text-gray-300 text-lg">Лучшая не дорогая оптимизация от Oder24hz для вашего компьютера/ноутбука</p>
     </header>
 
     <section class="text-center mb-10">
       <h2 class="text-xl font-semibold mb-4">💻 Что я предлагаю:</h2>
-      <ul class="space-y-3 text-gray-300 text-base">
-        <li class="hover:text-lime-200 transition">✅ Оптимизация Windows — очистка, ускорение, антивирус</li>
-        <li class="hover:text-lime-200 transition">✅ Оптимизация Bluestacks — плавность, фпс, сенса</li>
-        <li class="hover:text-lime-200 transition">✅ Настройка программ и системы — удалённо</li>
+      <ul class="space-y-3 text-base text-gray-200">
+        <li class="hover:text-green-400 transition">✅ Оптимизация Windows — ускорение, удаление мусора</li>
+        <li class="hover:text-green-400 transition">✅ Bluestacks — FPS, плавность, оптимальная сенса</li>
+        <li class="hover:text-green-400 transition">✅ Быстрая настройка программ и драйверов</li>
       </ul>
 
       <div class="mt-8">
-        <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
-           class="inline-block bg-white text-black font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 transition-all duration-300">
+        <a href="payment.html"
+           class="inline-block bg-white text-black font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 transition-all duration-300 border border-blue-500 hover:border-blue-700">
           💳 Купить оптимизацию
         </a>
       </div>
@@ -135,41 +86,65 @@
     <section class="bg-black/80 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-12">
       <h2 class="text-xl font-semibold text-center mb-4">💰 Цены</h2>
       <div class="grid gap-4 text-center text-base">
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition">
-          🔧 Оптимизация Windows — <span class="font-bold text-lime-200">200₽</span>
+        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+          🔧 Оптимизация Windows — <span class="font-bold rainbow-text">200₽</span>
         </div>
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition">
-          📱 Оптимизация Bluestacks — <span class="font-bold text-lime-200">150₽</span>
+        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+          📱 Bluestacks — <span class="font-bold rainbow-text">150₽</span>
         </div>
-        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition">
-          ⚙️ Настройка программ — <span class="font-bold text-lime-200">50₽</span>
+        <div class="bg-neutral-800 rounded-xl p-4 hover:shadow-lg transition price-tooltip">
+          ⚙️ Настройка программ — <span class="font-bold rainbow-text">50₽</span>
         </div>
       </div>
     </section>
 
     <section class="text-center mb-12">
       <h2 class="text-xl font-semibold mb-4">⭐ Отзывы клиентов</h2>
-      <p class="text-gray-400 mb-4">Посмотри реальные отзывы от довольных клиентов:</p>
+      <p class="text-gray-400 mb-4">Посмотри отзывы от довольных клиентов в Telegram:</p>
       <a href="https://t.me/Oder_optim" target="_blank"
-         class="inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-xl transition hover:scale-105">
+         class="inline-block text-white py-2 px-5 rounded-xl border border-blue-500 hover:bg-blue-500 hover:text-black transition-all duration-300">
         📬 Перейти в Telegram
       </a>
-    </section>
-
-    <section class="text-center mb-12">
-      <h2 class="text-xl font-semibold mb-6">🔗 Мои соцсети</h2>
-      <div class="flex flex-wrap justify-center gap-6 text-lg">
-        <a href="https://www.twitch.tv/oder24hz" class="hover:text-purple-400 transition">Twitch</a>
-        <a href="https://www.youtube.com/@Oder24hz" class="hover:text-red-400 transition">YouTube</a>
-        <a href="https://t.me/Oderrrr" class="hover:text-blue-400 transition">Telegram</a>
-        <a href="https://www.tiktok.com/@2011.o" class="hover:text-pink-400 transition">TikTok</a>
-      </div>
     </section>
 
     <footer class="text-center text-gray-500 text-sm pb-10">
       &copy; 2025 Oder24Hz. Все права защищены.
     </footer>
-
   </div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Выбор оплаты — Oder24Hz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #000;
+      font-family: 'Inter', sans-serif;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+
+  <h1 class="text-3xl font-bold rainbow-text mb-6">Выберите способ оплаты</h1>
+
+  <div class="space-y-6">
+    <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
+       class="block bg-green-500 text-black font-semibold py-3 px-6 rounded-xl hover:bg-green-400 transition-all duration-300">
+      💰 Купить через DonationAlerts
+    </a>
+    <a href="https://t.me/Oderrrr" target="_blank"
+       class="block bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-500 transition-all duration-300">
+      🔄 Купить через перевод
+    </a>
+  </div>
+
+  <p class="text-gray-400 mt-10 text-sm">После оплаты напишите мне в Telegram с доказательством оплаты</p>
+
 </body>
 </html>
