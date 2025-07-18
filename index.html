@@ -11,10 +11,9 @@
       font-family: 'Orbitron', sans-serif;
       background-color: #000;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* Пульсирующий задний фон */
     .pulse-bg::before {
       content: "";
       position: absolute;
@@ -28,33 +27,56 @@
     }
 
     @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.5;
-      }
-      50% {
-        transform: scale(1.2);
-        opacity: 0.2;
-      }
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
     }
 
-    /* Белая медленная пульсация текста */
     .text-pulse {
       animation: textPulse 4s ease-in-out infinite;
     }
 
     @keyframes textPulse {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.7;
-      }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .gradient-text {
+      background: linear-gradient(270deg, #00ff88, #00ffaa, #00ffcc);
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 6s ease infinite;
+    }
+
+    .gradient-button {
+      background: linear-gradient(90deg, #00ff88, #00ffaa, #00ffcc);
+      background-size: 300% 300%;
+      animation: gradientMove 4s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .content {
       position: relative;
       z-index: 1;
+    }
+
+    /* Полоса прокрутки для WebKit */
+    .scrollbar::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+
+    .scrollbar::-webkit-scrollbar-track {
+      background: transparent;
     }
   </style>
 </head>
@@ -63,67 +85,69 @@
   <div class="content">
 
     <!-- Header -->
-    <header class="text-center py-10">
-      <h1 class="text-4xl font-bold mb-2 hover:scale-105 transition drop-shadow-xl">Oder24Hz</h1>
-      <p class="text-lg text-gray-300 text-pulse">Лучшая оптимизация для блюстакса, даст второе дыхание даже слабому компу</p>
+    <header class="text-center py-10 px-4">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2 hover:scale-105 transition drop-shadow-xl gradient-text">Oder24Hz</h1>
+      <p class="text-base sm:text-lg text-gray-300 text-pulse">Лучшая оптимизация для блюстакса, даст второе дыхание даже слабому компу</p>
     </header>
 
     <!-- Услуги -->
-    <section class="max-w-3xl mx-auto px-6 py-8">
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
       <h2 class="text-2xl font-semibold mb-4 text-center">💻 Что я предлагаю:</h2>
-      <ul class="space-y-4 text-gray-200">
-        <li class="hover:text-black transition drop-shadow">✅ Оптимизация Windows - очистка от мусора, удаление вирусов, ускорение работы системы</li>
-        <li class="hover:text-black transition drop-shadow">✅ Оптимизация Bluestacks - повышение фпс, плавность, без фризов и плавной сенсы</li>
-        <li class="hover:text-black transition drop-shadow">✅ Настройка системы и программ — удалённо, быстро</li>
+      <ul class="space-y-4 text-gray-200 text-sm sm:text-base">
+        <li class="hover:text-lime-400 transition drop-shadow">✅ Оптимизация Windows — очистка от мусора, удаление вирусов, ускорение работы системы</li>
+        <li class="hover:text-lime-400 transition drop-shadow">✅ Оптимизация Bluestacks — повышение фпс, плавность, без фризов и плавной сенсы</li>
+        <li class="hover:text-lime-400 transition drop-shadow">✅ Настройка системы и программ — удалённо, быстро</li>
       </ul>
 
       <div class="text-center mt-8">
         <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
-           class="bg-black hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
+           class="gradient-button hover:brightness-110 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 inline-block text-sm sm:text-base">
           💳 Купить оптимизацию (пишите свой юз телеграмма для связи в донате)
         </a>
       </div>
     </section>
 
-    <!-- Цены -->
-    <section class="max-w-2xl mx-auto px-6 py-8 mt-4 bg-black rounded-2xl shadow-2xl">
-      <h2 class="text-xl font-semibold text-center mb-6">💰 Цены</h2>
-      <div class="grid gap-4 text-center text-gray-300">
-        <div class="bg-gray-900 rounded-xl p-4 hover:bg-gray-800 transition shadow-md">
-          🔧 Оптимизация Windows — <span class="text-lime-400 font-bold">200₽</span>
-        </div>
-        <div class="bg-gray-900 rounded-xl p-4 hover:bg-gray-800 transition shadow-md">
-          📱 Оптимизация Bluestacks — <span class="text-lime-400 font-bold">150₽</span>
-        </div>
-        <div class="bg-gray-900 rounded-xl p-4 hover:bg-gray-800 transition shadow-md">
-          ⚙️ Настройка программ и системы — <span class="text-lime-400 font-bold">50₽</span>
+    <!-- Цены с прокруткой -->
+    <section class="w-full overflow-x-auto scrollbar px-4 sm:px-6 py-8 mt-4">
+      <div class="min-w-[320px] max-w-2xl mx-auto bg-black rounded-2xl shadow-2xl p-4">
+        <h2 class="text-xl font-semibold text-center mb-6">💰 Цены</h2>
+        <div class="flex flex-nowrap gap-4 overflow-x-auto scrollbar text-center text-gray-300 text-sm sm:text-base">
+          <div class="flex-shrink-0 bg-gray-900 rounded-xl p-4 min-w-[220px] hover:bg-gray-800 transition shadow-md">
+            🔧 Оптимизация Windows — <span class="gradient-text font-bold">200₽</span>
+          </div>
+          <div class="flex-shrink-0 bg-gray-900 rounded-xl p-4 min-w-[220px] hover:bg-gray-800 transition shadow-md">
+            📱 Оптимизация Bluestacks — <span class="gradient-text font-bold">150₽</span>
+          </div>
+          <div class="flex-shrink-0 bg-gray-900 rounded-xl p-4 min-w-[220px] hover:bg-gray-800 transition shadow-md">
+            ⚙️ Настройка программ — <span class="gradient-text font-bold">50₽</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Отзывы -->
-    <section class="max-w-2xl mx-auto px-6 py-10 mt-6 text-center">
+    <section class="max-w-2xl mx-auto px-4 sm:px-6 py-10 mt-6 text-center">
       <h2 class="text-xl font-semibold mb-4">⭐ Отзывы клиентов</h2>
-      <p class="text-gray-400 mb-4">Посмотри реальные отзывы от довольных клиентов в Telegram:</p>
+      <p class="text-gray-400 mb-4 text-sm sm:text-base">Посмотри реальные отзывы от довольных клиентов в Telegram:</p>
       <a href="https://t.me/Oder_optim" target="_blank"
-         class="inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-xl transition hover:scale-105 shadow-md">
+         class="inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-xl transition hover:scale-105 shadow-md text-sm sm:text-base">
         📬 Перейти к отзывам
       </a>
     </section>
 
-    <!-- Соцсети -->
-    <section class="bg-black py-8 mt-10 shadow-inner">
+    <!-- Соцсети с прокруткой -->
+    <section class="bg-black py-8 mt-10 shadow-inner px-4">
       <h2 class="text-xl font-semibold text-center mb-6">🔗 Мои соцсети</h2>
-      <div class="flex justify-center gap-6 text-xl">
-        <a href="https://www.twitch.tv/oder24hz" target="_blank" class="hover:text-purple-400 transition">Twitch</a>
-        <a href="https://www.youtube.com/@Oder24hz" target="_blank" class="hover:text-red-400 transition">YouTube</a>
-        <a href="https://t.me/Oderrrr" target="_blank" class="hover:text-blue-400 transition">Telegram</a>
-        <a href="https://www.tiktok.com/@2011.o" target="_blank" class="hover:text-pink-400 transition">TikTok</a>
+      <div class="flex overflow-x-auto scrollbar gap-6 justify-start sm:justify-center text-xl px-2">
+        <a href="https://www.twitch.tv/oder24hz" target="_blank" class="hover:text-purple-400 transition whitespace-nowrap">Twitch</a>
+        <a href="https://www.youtube.com/@Oder24hz" target="_blank" class="hover:text-red-400 transition whitespace-nowrap">YouTube</a>
+        <a href="https://t.me/Oderrrr" target="_blank" class="hover:text-blue-400 transition whitespace-nowrap">Telegram</a>
+        <a href="https://www.tiktok.com/@2011.o" target="_blank" class="hover:text-pink-400 transition whitespace-nowrap">TikTok</a>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="text-center text-gray-500 text-sm py-6">
+    <footer class="text-center text-gray-500 text-sm py-6 px-4">
       &copy; 2025 Oder24Hz. Все права защищены.
     </footer>
 
