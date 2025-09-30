@@ -77,8 +77,24 @@
       transform: scale(1.05);
     }
 
-    .price-section {
-      background-color: transparent;
+    .toggle-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+    .toggle-content.active {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .accordion-btn::after {
+      content: "▼";
+      float: right;
+      transition: transform 0.3s ease;
+    }
+    .accordion-btn.active::after {
+      transform: rotate(-180deg);
     }
   </style>
 </head>
@@ -120,23 +136,47 @@
         </a>
       </div>
     </div>
+
+    <!-- Аккордеон под кнопкой "Купить оптимизацию" -->
+    <div class="mt-6 space-y-4 text-left">
+      <div>
+        <button data-target="instructionContent" class="accordion-btn w-full py-3 px-6 border-2 border-white rounded-xl text-lg font-semibold buy-btn">
+          📘 Инструкция для покупки
+        </button>
+        <div id="instructionContent" class="toggle-content mt-3 text-sm text-gray-300 bg-white/10 p-4 rounded-xl">
+          <p>Для покупки через <b>Telegram</b>, пишите свой <b>username</b> и то, что хотите купить. Там мы можем договориться об оплате переводом.</p>
+          <p class="mt-2">Если покупаете через <b>DonationAlerts</b>, пишите сразу свой username и то, что хотите купить — с вами свяжутся и всё сделают.</p>
+          <p class="mt-2 text-red-400"><b>ВАЖНО:</b> если вы оплатили через DonationAlerts и вам не написали, напишите нам в Telegram 👉 
+            <a href="https://t.me/Oder24hzz" target="_blank" class="underline text-blue-400">@Oder24hz</a>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <button data-target="optimizationContent" class="accordion-btn w-full py-3 px-6 border-2 border-white rounded-xl text-lg font-semibold buy-btn">
+          ❓ Что такое оптимизация?
+        </button>
+        <div id="optimizationContent" class="toggle-content mt-3 text-sm text-gray-300 bg-white/10 p-4 rounded-xl space-y-3">
+          <p><b>Оптимизация</b> нужна для более хорошей работы вашего компьютера/ноутбука: для повышения FPS, плавной картинки и стабильной работы системы.</p>
+          <p><b>Как проходит оптимизация?</b> После оплаты мы скидываем вам программу Anydesk. Оттуда нужны цифры для подключения к вашему ПК. Мы подключаемся и делаем всё сами — от вас нужно только терпение.</p>
+          <p><b>Что делает оптимизация?</b> Убирает мусор, повышает FPS, устраняет фризы, снижает нагрузку на CPU/GPU, делает картинку плавнее, сенсу точнее и уменьшает пинг.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Цены -->
   <section class="price-section max-w-2xl mx-auto px-4 py-8 mt-4 rounded-2xl text-center">
     <h2 class="text-xl font-semibold mb-6">💰 Цены</h2>
     <div class="grid gap-4 text-gray-300 text-base">
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:relative group transition">
+      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
         🔧 Оптимизация Windows — <span class="text-white glow font-bold">100₽</span>
-        <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-sm text-white bg-black px-3 py-1 rounded shadow opacity-0 group-hover:opacity-100 transition-all duration-300">Самая лучшая цена)))</div>
       </div>
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:relative group transition">
+      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
         📱 Оптимизация Bluestacks — <span class="text-white glow font-bold">200₽</span>
-        <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-sm text-white bg-black px-3 py-1 rounded shadow opacity-0 group-hover:opacity-100 transition-all duration-300">Самая лучшая цена)))</div>
       </div>
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:relative group transition">
+      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
         ⚙️ Настройка Bluestacks — <span class="text-white glow font-bold">50₽</span>
-        <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-sm text-white bg-black px-3 py-1 rounded shadow opacity-0 group-hover:opacity-100 transition-all duration-300">Самая лучшая цена)))</div>
       </div>
     </div>
   </section>
@@ -156,21 +196,18 @@
     &copy; 2025 Oder24Hz. Все права защищены.
   </footer>
 
-  <!-- Particles + Buy button logic -->
+  <!-- Scripts -->
   <script>
+    // Particles
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     let particlesArray = [];
-
     function initCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
     initCanvas();
-    window.addEventListener('resize', () => {
-      initCanvas();
-    });
-
+    window.addEventListener('resize', () => initCanvas());
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
@@ -180,7 +217,6 @@
         this.speedY = (Math.random() - 0.5) * 0.3;
         this.opacity = Math.random() * 0.5 + 0.2;
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -189,7 +225,6 @@
         if (this.y < 0) this.y = canvas.height;
         else if (this.y > canvas.height) this.y = 0;
       }
-
       draw() {
         ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.beginPath();
@@ -197,30 +232,20 @@
         ctx.fill();
       }
     }
-
-    function initParticles(num = 100) {
+    function initParticles(num = 120) {
       particlesArray = [];
-      for (let i = 0; i < num; i++) {
-        particlesArray.push(new Particle());
-      }
+      for (let i = 0; i < num; i++) particlesArray.push(new Particle());
     }
-
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particlesArray.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
+      particlesArray.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animate);
     }
-
-    initParticles(120);
-    animate();
+    initParticles(); animate();
 
     // Toggle buy options
     const buyBtn = document.getElementById("buyToggleBtn");
     const buyOptions = document.getElementById("buyOptions");
-
     buyBtn.addEventListener("click", () => {
       const isVisible = buyOptions.classList.contains("opacity-100");
       buyOptions.classList.toggle("opacity-100", !isVisible);
@@ -228,6 +253,27 @@
       buyOptions.classList.toggle("opacity-0", isVisible);
       buyOptions.classList.toggle("scale-95", isVisible);
       buyOptions.classList.toggle("pointer-events-none", isVisible);
+    });
+
+    // Accordion logic
+    const accordionBtns = document.querySelectorAll(".accordion-btn");
+    accordionBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        const target = document.getElementById(targetId);
+
+        // Закрыть все блоки кроме текущего
+        document.querySelectorAll(".toggle-content").forEach(el => {
+          if (el !== target) el.classList.remove("active");
+        });
+
+        // Переключить текущий
+        target.classList.toggle("active");
+
+        // Обновить стрелки
+        accordionBtns.forEach(b => b.classList.remove("active"));
+        if (target.classList.contains("active")) btn.classList.add("active");
+      });
     });
   </script>
 </body>
