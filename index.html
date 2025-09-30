@@ -7,257 +7,131 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background-color: #000;
-      overflow-x: hidden;
-      position: relative;
-      animation: fadeIn 1.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .background-anim::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.05), transparent),
-                  radial-gradient(ellipse at top left, rgba(255,255,255,0.03), transparent),
-                  radial-gradient(ellipse at bottom right, rgba(255,255,255,0.04), transparent);
-      animation: pulseBG 8s infinite alternate;
-      z-index: -2;
-    }
-
-    @keyframes pulseBG {
-      0% { filter: brightness(0.8); }
-      100% { filter: brightness(1.2); }
-    }
-
-    #particles-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .rgb-text {
-      background: linear-gradient(270deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00);
-      background-size: 1200% 1200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rgbFlow 15s linear infinite;
-    }
-
-    @keyframes rgbFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .glow {
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-    }
-
-    .buy-btn {
-      transition: all 0.3s ease;
-    }
-
-    .buy-btn:hover {
-      background-color: white;
-      color: black;
-      border-color: white;
-      transform: scale(1.05);
-    }
-
-    .price-section {
-      background-color: transparent;
-    }
+    body { margin: 0; font-family: 'Rubik', sans-serif; background:#000; color:#fff; }
+    .buy-btn { transition:all .3s ease; }
+    .buy-btn:hover { background:#fff; color:#000; transform:scale(1.05); }
+    .dropdown { z-index:50; }
+    .glow { text-shadow:0 0 10px rgba(255,255,255,0.6); }
   </style>
 </head>
-<body class="text-white background-anim">
+<body class="text-white">
 
-  <canvas id="particles-canvas"></canvas>
-
-  <!-- Header -->
   <header class="text-center py-10 px-4">
-    <h1 class="text-4xl sm:text-5xl font-bold mb-2 rgb-text">Oder24Hz</h1>
-    <p class="text-gray-300 text-base sm:text-lg glow">Лучшая недорогая оптимизация от Oder24Hz для вашего компьютера/ноутбука</p>
+    <h1 class="text-4xl font-bold mb-2 glow">Oder24Hz</h1>
+    <p class="text-gray-300">Оптимизация и настройка для вашего ПК и Bluestacks</p>
   </header>
 
-  <!-- Услуги -->
-  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 text-center">
-    <h2 class="text-2xl font-semibold mb-4">💻 Что я предлагаю:</h2>
-    <ul class="space-y-3 text-base text-white">
-      <li class="glow">Оптимизация Windows — ускорение, удаление мусора</li>
-      <li class="glow">Bluestacks — FPS, плавность, резкая сенса</li>
-      <li class="glow">Быстрая настройка Bluestacks (настройки и управление)</li>
-    </ul>
-  </section>
-
-  <!-- Цены -->
-  <section class="price-section max-w-2xl mx-auto px-4 py-8 mt-4 rounded-2xl text-center">
+  <section class="max-w-2xl mx-auto px-4 py-8">
     <h2 class="text-xl font-semibold mb-6">💰 Цены</h2>
 
-    <div class="grid gap-4 text-gray-300 text-base">
-
-      <!-- Оптимизация Windows -->
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 transition hover:shadow-lg">
-        <div class="flex items-start justify-between gap-4">
-          <div class="text-left">
-            <div class="text-sm">🔧 Оптимизация Windows</div>
-            <div class="text-white glow font-bold text-lg mt-1">100₽</div>
-          </div>
-          <div class="relative inline-block">
-            <button onclick="toggleBuy('win')" class="buy-btn border-2 border-white font-semibold py-2 px-4 rounded-xl">💳 Купить</button>
-            <div id="buyOptions-win"
-                 class="absolute right-0 mt-2 w-72 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-3 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-200">
-              <a href="https://t.me/Oder24hzz" target="_blank" class="block py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition">💸 Перевод через Telegram</a>
-              <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block py-2 px-3 rounded-lg bg-green-600 hover:bg-green-700 transition">🧾 DonationAlerts</a>
-              <button onclick="toggleDetails('win')" class="block w-full py-2 px-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition">ℹ️ Что делает эта услуга?</button>
+    <!-- Карточка услуги -->
+    <div class="bg-white/10 rounded-xl p-4 mb-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="text-sm">🔧 Оптимизация Windows</div>
+          <div class="text-lg font-bold glow">100₽</div>
+        </div>
+        <div class="relative">
+          <button onclick="toggleBuy('win')" class="buy-btn border-2 border-white py-2 px-4 rounded-xl">💳 Купить</button>
+          <div id="buyOptions-win"
+               class="dropdown absolute right-0 mt-2 w-72 bg-black/90 border border-white/10 rounded-xl shadow-lg p-3 text-sm space-y-2 hidden">
+            <a href="https://t.me/Oder24hzz" target="_blank"
+               class="block text-center py-2 rounded bg-blue-600 hover:bg-blue-700">💸 Перевод через Telegram</a>
+            <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
+               class="block text-center py-2 rounded bg-green-600 hover:bg-green-700">🧾 DonationAlerts</a>
+            <button onclick="toggleDetails('win')" class="block w-full text-center py-2 rounded bg-gray-700 hover:bg-gray-600">ℹ️ Что делает эта услуга?</button>
+            <div id="details-win" class="hidden text-left text-gray-300 bg-black/60 p-2 rounded">
+              <p>✔️ Чистка от мусора</p>
+              <p>✔️ Повышение ФПС</p>
+              <p>✔️ Быстрый запуск</p>
+              <p>✔️ Плавная картинка</p>
             </div>
           </div>
         </div>
-        <div id="details-win" class="hidden text-sm text-left mt-4 space-y-1 bg-black/40 p-3 rounded-lg border border-white/10">
-          <p>✔️ Чистка от мусора</p>
-          <p>✔️ Повышение ФПС во всех играх</p>
-          <p>✔️ Более быстрый запуск компьютера</p>
-          <p>✔️ Плавная картинка</p>
-        </div>
       </div>
-
-      <!-- Оптимизация Bluestacks -->
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 transition hover:shadow-lg">
-        <div class="flex items-start justify-between gap-4">
-          <div class="text-left">
-            <div class="text-sm">📱 Оптимизация Bluestacks</div>
-            <div class="text-white glow font-bold text-lg mt-1">200₽</div>
-          </div>
-          <div class="relative inline-block">
-            <button onclick="toggleBuy('blue')" class="buy-btn border-2 border-white font-semibold py-2 px-4 rounded-xl">💳 Купить</button>
-            <div id="buyOptions-blue"
-                 class="absolute right-0 mt-2 w-72 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-3 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-200">
-              <a href="https://t.me/Oder24hzz" target="_blank" class="block py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition">💸 Перевод через Telegram</a>
-              <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block py-2 px-3 rounded-lg bg-green-600 hover:bg-green-700 transition">🧾 DonationAlerts</a>
-              <button onclick="toggleDetails('blue')" class="block w-full py-2 px-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition">ℹ️ Что делает эта услуга?</button>
-            </div>
-          </div>
-        </div>
-        <div id="details-blue" class="hidden text-sm text-left mt-4 space-y-1 bg-black/40 p-3 rounded-lg border border-white/10">
-          <p>✔️ Повышение ФПС</p>
-          <p>✔️ Резкая сенса</p>
-          <p>✔️ Плавная картинка</p>
-          <p>✔️ Удаление вылетов (максимально возможно)</p>
-          <p>✔️ Удаление фризов</p>
-          <p>✔️ Более стабильная работа эмулятора</p>
-        </div>
-      </div>
-
-      <!-- Настройка Bluestacks -->
-      <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 transition hover:shadow-lg">
-        <div class="flex items-start justify-between gap-4">
-          <div class="text-left">
-            <div class="text-sm">⚙️ Настройка Bluestacks</div>
-            <div class="text-white glow font-bold text-lg mt-1">50₽</div>
-          </div>
-          <div class="relative inline-block">
-            <button onclick="toggleBuy('setup')" class="buy-btn border-2 border-white font-semibold py-2 px-4 rounded-xl">💳 Купить</button>
-            <div id="buyOptions-setup"
-                 class="absolute right-0 mt-2 w-72 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-3 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-200">
-              <a href="https://t.me/Oder24hzz" target="_blank" class="block py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition">💸 Перевод через Telegram</a>
-              <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block py-2 px-3 rounded-lg bg-green-600 hover:bg-green-700 transition">🧾 DonationAlerts</a>
-              <button onclick="toggleDetails('setup')" class="block w-full py-2 px-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition">ℹ️ Что делает эта услуга?</button>
-            </div>
-          </div>
-        </div>
-        <div id="details-setup" class="hidden text-sm text-left mt-4 space-y-1 bg-black/40 p-3 rounded-lg border border-white/10">
-          <p>✔️ Скачаем и настроим эмулятор за вас правильно</p>
-          <p>✔️ Гарантия стабильной работы</p>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Инструкция по покупке -->
-    <div class="mt-6">
-      <button id="instrBtn" onclick="toggleBuy('instruction')"
-              class="buy-btn inline-block border-2 border-yellow-400 font-semibold py-2 px-6 rounded-xl text-yellow-300 hover:bg-yellow-400 hover:text-black transition">
-        📘 Инструкция по покупке
-      </button>
-      <div id="buyOptions-instruction"
-           class="mt-4 w-full max-w-2xl mx-auto text-sm text-left bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-200">
-        <p>✔️ <b>Если покупаете через Telegram:</b> пишите сразу что вы хотите купить — там можно договориться по оплате.</p>
-        <p>✔️ <b>Если покупаете через Donation Alerts:</b> указывайте ваш <b>Username в Telegram</b> и то, что вы хотите купить.</p>
+    <!-- Bluestacks -->
+    <div class="bg-white/10 rounded-xl p-4 mb-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="text-sm">📱 Оптимизация Bluestacks</div>
+          <div class="text-lg font-bold glow">200₽</div>
+        </div>
+        <div class="relative">
+          <button onclick="toggleBuy('blue')" class="buy-btn border-2 border-white py-2 px-4 rounded-xl">💳 Купить</button>
+          <div id="buyOptions-blue"
+               class="dropdown absolute right-0 mt-2 w-72 bg-black/90 border border-white/10 rounded-xl shadow-lg p-3 text-sm space-y-2 hidden">
+            <a href="https://t.me/Oder24hzz" target="_blank"
+               class="block text-center py-2 rounded bg-blue-600 hover:bg-blue-700">💸 Перевод через Telegram</a>
+            <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
+               class="block text-center py-2 rounded bg-green-600 hover:bg-green-700">🧾 DonationAlerts</a>
+            <button onclick="toggleDetails('blue')" class="block w-full text-center py-2 rounded bg-gray-700 hover:bg-gray-600">ℹ️ Что делает эта услуга?</button>
+            <div id="details-blue" class="hidden text-left text-gray-300 bg-black/60 p-2 rounded">
+              <p>✔️ Повышение ФПС</p>
+              <p>✔️ Резкая сенса</p>
+              <p>✔️ Плавная картинка</p>
+              <p>✔️ Удаление фризов</p>
+              <p>✔️ Более стабильная работа</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Настройка Bluestacks -->
+    <div class="bg-white/10 rounded-xl p-4 mb-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="text-sm">⚙️ Настройка Bluestacks</div>
+          <div class="text-lg font-bold glow">50₽</div>
+        </div>
+        <div class="relative">
+          <button onclick="toggleBuy('setup')" class="buy-btn border-2 border-white py-2 px-4 rounded-xl">💳 Купить</button>
+          <div id="buyOptions-setup"
+               class="dropdown absolute right-0 mt-2 w-72 bg-black/90 border border-white/10 rounded-xl shadow-lg p-3 text-sm space-y-2 hidden">
+            <a href="https://t.me/Oder24hzz" target="_blank"
+               class="block text-center py-2 rounded bg-blue-600 hover:bg-blue-700">💸 Перевод через Telegram</a>
+            <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
+               class="block text-center py-2 rounded bg-green-600 hover:bg-green-700">🧾 DonationAlerts</a>
+            <button onclick="toggleDetails('setup')" class="block w-full text-center py-2 rounded bg-gray-700 hover:bg-gray-600">ℹ️ Что делает эта услуга?</button>
+            <div id="details-setup" class="hidden text-left text-gray-300 bg-black/60 p-2 rounded">
+              <p>✔️ Скачаем и настроим эмулятор за вас</p>
+              <p>✔️ Гарантия стабильной работы</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Инструкция -->
+    <div class="mt-6 text-center">
+      <button onclick="toggleBuy('instruction')" class="buy-btn border-2 border-yellow-400 text-yellow-300 py-2 px-6 rounded-xl">📘 Инструкция по покупке</button>
+      <div id="buyOptions-instruction" class="hidden mt-3 bg-black/80 border border-white/10 rounded-xl p-4 text-sm text-left">
+        <p>✔️ Если через Telegram — пишите сразу что хотите купить, можно договориться по оплате.</p>
+        <p>✔️ Если через DonationAlerts — укажите ваш Username в Telegram и товар.</p>
       </div>
     </div>
   </section>
 
-  <!-- Отзывы -->
-  <section class="max-w-2xl mx-auto px-4 py-10 text-center">
-    <h2 class="text-xl font-semibold mb-4">⭐ Отзывы клиентов</h2>
-    <p class="text-gray-400 mb-4">Посмотри реальные отзывы в Telegram:</p>
-    <a href="https://t.me/Oder_optim" target="_blank"
-       class="inline-block py-2 px-6 rounded-xl text-white border-2 border-blue-500 hover:bg-blue-500 hover:text-black transition duration-300">
-      📬 Перейти в Telegram
-    </a>
-  </section>
-
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-6 px-4">
-    &copy; 2025 Oder24Hz. Все права защищены.
-  </footer>
-
-  <!-- Particles + Logic -->
   <script>
-    // Частицы
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let particlesArray = [];
-    function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    initCanvas();
-    window.addEventListener('resize', initCanvas);
-
-    class Particle {
-      constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5; this.speedX = (Math.random() - 0.5) * 0.3; this.speedY = (Math.random() - 0.5) * 0.3; this.opacity = Math.random() * 0.5 + 0.2; }
-      update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0) this.x = canvas.width; else if (this.x > canvas.width) this.x = 0; if (this.y < 0) this.y = canvas.height; else if (this.y > canvas.height) this.y = 0; }
-      draw() { ctx.fillStyle = `rgba(255,255,255,${this.opacity})`; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); }
+    function toggleBuy(id){
+      const el=document.getElementById("buyOptions-"+id);
+      if(!el) return;
+      el.classList.toggle("hidden");
     }
-
-    function initParticles(num=120){particlesArray=[];for(let i=0;i<num;i++){particlesArray.push(new Particle());}}
-    function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particlesArray.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
-    initParticles(); animate();
-
-    // Открытие меню
-    function toggleBuy(service) {
-      const menu = document.getElementById("buyOptions-" + service);
-      if (!menu) return;
-      const isOpen = menu.classList.contains("opacity-100");
-      if (isOpen) { menu.classList.remove("opacity-100","scale-100"); menu.classList.add("opacity-0","scale-95","pointer-events-none"); }
-      else { menu.classList.add("opacity-100","scale-100"); menu.classList.remove("opacity-0","scale-95","pointer-events-none"); }
+    function toggleDetails(id){
+      const el=document.getElementById("details-"+id);
+      if(!el) return;
+      el.classList.toggle("hidden");
     }
-
-    // Показ описания услуги
-    function toggleDetails(service) {
-      const details = document.getElementById("details-" + service);
-      if (details) details.classList.toggle("hidden");
-    }
-
-    // Клик вне меню закрывает выпадашки
-    document.addEventListener('click', function(e) {
-      const buyMenus = document.querySelectorAll('[id^="buyOptions-"]');
-      for (let menu of buyMenus) {
-        const parentBtn = menu.previousElementSibling;
-        if (menu.contains(e.target) || (parentBtn && parentBtn.contains(e.target))) return;
-      }
-      buyMenus.forEach(menu => { menu.classList.remove("opacity-100","scale-100"); menu.classList.add("opacity-0","scale-95","pointer-events-none"); });
+    // Клик вне закрывает меню
+    document.addEventListener("click",e=>{
+      document.querySelectorAll(".dropdown").forEach(menu=>{
+        if(!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)){
+          menu.classList.add("hidden");
+        }
+      });
     });
   </script>
 </body>
