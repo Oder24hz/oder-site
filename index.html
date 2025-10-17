@@ -48,15 +48,16 @@
       z-index: -1;
     }
 
+    /* 🌑 Обновлённый градиент текста */
     .rgb-text {
-      background: linear-gradient(270deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00);
-      background-size: 1200% 1200%;
+      background: linear-gradient(270deg, #000000, #555555, #ffffff, #555555, #000000);
+      background-size: 800% 800%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rgbFlow 15s linear infinite;
+      animation: blackWhiteFlow 10s ease infinite;
     }
 
-    @keyframes rgbFlow {
+    @keyframes blackWhiteFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -134,6 +135,11 @@
            class="block w-full text-center py-2 px-4 rounded-lg bg-green-600 hover:bg-green-700 transition">
           DonationAlerts
         </a>
+        <!-- ✅ Новая кнопка DonatePay -->
+        <a href="https://new.donatepay.ru/@1292052" target="_blank"
+           class="block w-full text-center py-2 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 transition">
+          DonatePay
+        </a>
       </div>
     </div>
 
@@ -145,8 +151,8 @@
         </button>
         <div id="instructionContent" class="toggle-content mt-2 text-sm text-gray-300 bg-white/10 p-3 rounded-xl max-w-sm mx-auto">
           <p>Для покупки через <b>Telegram</b>, пишите то, что хотите купить. Там мы можем договориться об оплате переводом.</p>
-          <p class="mt-2">Если покупаете через <b>DonationAlerts</b>, пишите сразу свой username и то, что хотите купить — с вами свяжутся и всё сделают.</p>
-          <p class="mt-2 text-red-400"><b>ВАЖНО:</b> если вы оплатили через DonationAlerts и вам не написали, напишите нам в Telegram 
+          <p class="mt-2">Если покупаете через <b>DonationAlerts</b> или <b>DonatePay</b>, пишите сразу свой username и то, что хотите купить — с вами свяжутся и всё сделают.</p>
+          <p class="mt-2 text-red-400"><b>ВАЖНО:</b> если вы оплатили и вам не написали, напишите нам в Telegram 
             <a href="https://t.me/Oder24hzz" target="_blank" class="underline text-blue-400">@Oder24hz</a>
           </p>
         </div>
@@ -178,7 +184,6 @@
       <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
          Настройка Bluestacks — <span class="text-white glow font-bold">50₽</span>
       </div>
-      <!-- ✅ Новый пункт -->
       <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
          Удаление Вирусов — <span class="text-white glow font-bold">100₽</span>
       </div>
@@ -265,16 +270,10 @@
       btn.addEventListener("click", () => {
         const targetId = btn.getAttribute("data-target");
         const target = document.getElementById(targetId);
-
-        // Закрыть все блоки кроме текущего
         document.querySelectorAll(".toggle-content").forEach(el => {
           if (el !== target) el.classList.remove("active");
         });
-
-        // Переключить текущий
         target.classList.toggle("active");
-
-        // Обновить стрелки
         accordionBtns.forEach(b => b.classList.remove("active"));
         if (target.classList.contains("active")) btn.classList.add("active");
       });
