@@ -100,15 +100,9 @@ canvas{
 
   <!-- КНОПКА ПОКУПКИ -->
   <div class="card p-6 text-center">
-    <button id="buyBtn" class="btn font-semibold">
+    <a href="https://t.me/Oder24hzz" target="_blank" class="btn font-semibold inline-block">
       💳 Купить оптимизацию
-    </button>
-
-    <div id="buyMenu" class="mt-4 hidden space-y-2">
-      <a href="https://t.me/Oder_optim" target="_blank" class="block btn">Telegram</a>
-      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block btn">DonationAlerts</a>
-      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block btn">DonatePay</a>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -160,6 +154,13 @@ canvas{
   </div>
 </section>
 
+<!-- TELEGRAM BUTTON FOR REVIEWS -->
+<section class="text-center py-10">
+  <a href="https://t.me/Oder_optim" target="_blank" class="btn font-semibold inline-block">
+    📝 Отзывы Telegram
+  </a>
+</section>
+
 <footer class="text-center text-gray-500 text-sm py-6">
   © 2025 Oder24Hz
 </footer>
@@ -186,9 +187,6 @@ let p=[...Array(120)].map(()=>({
   });
   requestAnimationFrame(a);
 })();
-
-/* buy button */
-buyBtn.onclick=()=>buyMenu.classList.toggle("hidden");
 
 /* animated text */
 const w1=["Лучшая","Прекрасная"];
