@@ -68,10 +68,6 @@ canvas{
   opacity:0;
   transform:translateY(8px);
 }
-.fade-in{
-  opacity:1;
-  transform:translateY(0);
-}
 </style>
 </head>
 
@@ -102,13 +98,14 @@ canvas{
     </ul>
   </div>
 
+  <!-- КНОПКА ПОКУПКИ -->
   <div class="card p-6 text-center">
     <button id="buyBtn" class="btn font-semibold">
       💳 Купить оптимизацию
     </button>
 
     <div id="buyMenu" class="mt-4 hidden space-y-2">
-      <a href="https://t.me/Oder24hzz" target="_blank" class="block btn">Telegram</a>
+      <a href="https://t.me/Oder_optim" target="_blank" class="block btn">Telegram</a>
       <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block btn">DonationAlerts</a>
       <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block btn">DonatePay</a>
     </div>
@@ -170,4 +167,45 @@ canvas{
 <script>
 /* particles */
 const c=document.getElementById("particles"),x=c.getContext("2d");
-function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r)
+function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r);
+let p=[...Array(120)].map(()=>({
+  x:Math.random()*c.width,
+  y:Math.random()*c.height,
+  s:Math.random()*2+0.5,
+  dx:(Math.random()-.5)*0.3,
+  dy:(Math.random()-.5)*0.3
+}));
+(function a(){
+  x.clearRect(0,0,c.width,c.height);
+  p.forEach(e=>{
+    e.x+=e.dx;e.y+=e.dy;
+    if(e.x<0)e.x=c.width;if(e.x>c.width)e.x=0;
+    if(e.y<0)e.y=c.height;if(e.y>c.height)e.y=0;
+    x.fillStyle="rgba(255,255,255,.4)";
+    x.beginPath();x.arc(e.x,e.y,e.s,0,Math.PI*2);x.fill();
+  });
+  requestAnimationFrame(a);
+})();
+
+/* buy button */
+buyBtn.onclick=()=>buyMenu.classList.toggle("hidden");
+
+/* animated text */
+const w1=["Лучшая","Прекрасная"];
+const w2=["компьютера","ноутбука"];
+let i=0;
+setInterval(()=>{
+  word1.classList.add("fade-out");
+  word2.classList.add("fade-out");
+  setTimeout(()=>{
+    i=(i+1)%w1.length;
+    word1.textContent=w1[i];
+    word2.textContent=w2[i];
+    word1.classList.remove("fade-out");
+    word2.classList.remove("fade-out");
+  },400);
+},3000);
+</script>
+
+</body>
+</html>
