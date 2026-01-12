@@ -16,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* background */
     body::before {
       content: "";
       position: fixed;
@@ -67,7 +66,7 @@
       transition: .4s ease;
     }
     .toggle.active {
-      max-height: 1000px;
+      max-height: 1200px;
       opacity: 1;
     }
 
@@ -90,19 +89,64 @@
 <header class="text-center py-16 px-4">
   <h1 class="text-5xl font-bold mb-3">Oder24Hz</h1>
   <p class="text-gray-300 max-w-xl mx-auto">
-    Лучшая недорогая оптимизация для вашего компьютера или ноутбука
+    Недорогая и безопасная оптимизация компьютеров и ноутбуков  
+    для повышения FPS, плавности и стабильности
   </p>
 </header>
 
-<!-- SERVICES -->
+<!-- MAIN -->
 <section class="max-w-3xl mx-auto px-4 space-y-6">
 
+  <!-- SERVICES -->
   <div class="card p-6 text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
     <ul class="space-y-2 text-gray-200">
       <li>• Оптимизация Windows — ускорение, удаление мусора</li>
-      <li>• Bluestacks — FPS, плавность, резкая сенса</li>
-      <li>• Быстрая настройка Bluestacks</li>
+      <li>• Bluestacks — повышение FPS и плавности</li>
+      <li>• Быстрая настройка Bluestacks и управления</li>
+    </ul>
+  </div>
+
+  <!-- WHAT IS DONE -->
+  <div class="card p-6">
+    <h2 class="text-xl font-semibold mb-3 text-center">
+      Что делается при оптимизации
+    </h2>
+    <ul class="grid sm:grid-cols-2 gap-2 text-gray-300 text-sm">
+      <li>✔ Очистка временных файлов</li>
+      <li>✔ Отключение ненужных фоновых процессов</li>
+      <li>✔ Оптимизация служб Windows</li>
+      <li>✔ Настройка электропитания</li>
+      <li>✔ Улучшение отклика мыши и клавиатуры</li>
+      <li>✔ Снижение input lag</li>
+      <li>✔ Проверка системы на вирусы</li>
+      <li>✔ Общая стабилизация системы</li>
+    </ul>
+  </div>
+
+  <!-- WHO -->
+  <div class="card p-6">
+    <h2 class="text-xl font-semibold mb-3 text-center">
+      Кому подойдёт оптимизация
+    </h2>
+    <ul class="space-y-2 text-gray-300 text-sm">
+      <li>🎮 Если играешь и хочешь больше FPS</li>
+      <li>💻 Если слабый или средний ПК / ноутбук</li>
+      <li>📉 Если есть фризы, микролаги, просадки</li>
+      <li>🧹 Если система давно не чистилась</li>
+    </ul>
+  </div>
+
+  <!-- SAFETY -->
+  <div class="card p-6">
+    <h2 class="text-xl font-semibold mb-3 text-center">
+      Безопасность и гарантия
+    </h2>
+    <ul class="space-y-2 text-gray-300 text-sm">
+      <li>✅ Никакой переустановки Windows</li>
+      <li>✅ Никаких скрытых программ</li>
+      <li>✅ Всё делается при вас через AnyDesk</li>
+      <li>✅ Можно задавать вопросы в процессе</li>
     </ul>
   </div>
 
@@ -111,6 +155,9 @@
     <button id="buyBtn" class="btn font-semibold">
       💳 Купить оптимизацию
     </button>
+    <p class="text-gray-400 text-xs mt-2">
+      ⏱ Обычно занимает 30–60 минут • Поддержка в Telegram после оптимизации
+    </p>
 
     <div id="buyMenu" class="toggle mt-4 space-y-2">
       <a href="https://t.me/Oder24hzz" target="_blank" class="block btn">Telegram</a>
@@ -119,39 +166,21 @@
     </div>
   </div>
 
-  <!-- ACCORDIONS -->
+  <!-- FAQ -->
   <div class="card p-6 space-y-4">
-
-    <button data-target="inst" class="accordion btn w-full text-sm">
-      Инструкция для покупки
+    <button data-target="faq1" class="accordion btn w-full text-sm">
+      Сколько по времени длится оптимизация?
     </button>
-    <div id="inst" class="toggle text-sm text-gray-300">
-      <p class="mt-2">
-        Для покупки через <b>Telegram</b> напишите, что хотите купить.
-      </p>
-      <p class="mt-2">
-        Если оплатили через <b>DonationAlerts</b> или <b>DonatePay</b>,
-        напишите username и услугу.
-      </p>
-      <p class="mt-2 text-red-400">
-        Если вам не написали — напишите в Telegram
-        <a class="underline" href="https://t.me/Oder24hzz">@Oder24hz</a>
-      </p>
+    <div id="faq1" class="toggle text-sm text-gray-300">
+      Обычно от 30 до 60 минут, в зависимости от системы.
     </div>
 
-    <button data-target="opt" class="accordion btn w-full text-sm">
-      Что такое оптимизация?
+    <button data-target="faq2" class="accordion btn w-full text-sm">
+      Подойдёт ли для ноутбука?
     </button>
-    <div id="opt" class="toggle text-sm text-gray-300 space-y-2">
-      <p>Оптимизация нужна для повышения FPS и плавности.</p>
-      <p>
-        После оплаты вы скачиваете Anydesk, мы подключаемся и делаем всё сами.
-      </p>
-      <p>
-        Убирается мусор, снижается нагрузка, уменьшаются фризы и input lag.
-      </p>
+    <div id="faq2" class="toggle text-sm text-gray-300">
+      Да, оптимизация подходит как для ПК, так и для ноутбуков.
     </div>
-
   </div>
 
 </section>
