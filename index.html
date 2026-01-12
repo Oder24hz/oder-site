@@ -1,159 +1,118 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oder24Hz — Оптимизация</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oder24Hz — Оптимизация</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      font-family: 'Rubik', sans-serif;
-      background: #050505;
-      color: #fff;
-      overflow-x: hidden;
-    }
+<style>
+body {
+  font-family: 'Rubik', sans-serif;
+  background:#050505;
+  color:white;
+  overflow-x:hidden;
+}
 
-    /* background */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.06), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 40%);
-      z-index: -2;
-    }
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.06), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 40%);
+  z-index:-2;
+}
 
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-    }
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+}
 
-    .card {
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 1rem;
-    }
+.card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:1rem;
+}
 
-    .card-hover {
-      transition: .3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-4px);
-      background: rgba(255,255,255,.07);
-    }
+.card-hover{
+  transition:.3s;
+}
+.card-hover:hover{
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.07);
+}
 
-    .btn {
-      border: 1px solid white;
-      border-radius: 1rem;
-      padding: 12px 24px;
-      transition: .3s;
-    }
-    .btn:hover {
-      background: white;
-      color: black;
-      transform: scale(1.05);
-    }
+.btn{
+  border:1px solid white;
+  border-radius:1rem;
+  padding:12px 24px;
+  transition:.3s;
+}
+.btn:hover{
+  background:white;
+  color:black;
+  transform:scale(1.05);
+}
 
-    .toggle {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: .4s ease;
-    }
-    .toggle.active {
-      max-height: 1000px;
-      opacity: 1;
-    }
-
-    .accordion::after {
-      content: "▼";
-      margin-left: 6px;
-      transition: .3s;
-    }
-    .accordion.active::after {
-      transform: rotate(180deg);
-    }
-  </style>
+/* animated text */
+.fade-word{
+  display:inline-block;
+  transition:opacity .4s, transform .4s;
+}
+.fade-out{
+  opacity:0;
+  transform:translateY(8px);
+}
+.fade-in{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
 </head>
 
 <body>
 
 <canvas id="particles"></canvas>
 
-<!-- HEADER -->
-<header class="text-center py-16 px-4">
-  <h1 class="text-5xl font-bold mb-3">Oder24Hz</h1>
-  <p class="text-gray-300 max-w-xl mx-auto">
-    Лучшая недорогая оптимизация для вашего компьютера или ноутбука
+<!-- HERO -->
+<header class="text-center py-20 px-4">
+  <h1 class="text-5xl sm:text-6xl font-bold mb-4">Oder24Hz</h1>
+
+  <p class="text-gray-300 text-lg">
+    <span id="word1" class="fade-word">Лучшая</span>
+    оптимизация для твоего
+    <span id="word2" class="fade-word">компьютера</span>
   </p>
 </header>
 
-<!-- SERVICES -->
+<!-- CONTENT -->
 <section class="max-w-3xl mx-auto px-4 space-y-6">
 
   <div class="card p-6 text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
     <ul class="space-y-2 text-gray-200">
       <li>• Оптимизация Windows — ускорение, удаление мусора</li>
-      <li>• Bluestacks — FPS, плавность, резкая сенса</li>
+      <li>• Bluestacks — FPS, плавность, сенса</li>
       <li>• Быстрая настройка Bluestacks</li>
     </ul>
   </div>
 
-  <!-- BUY -->
   <div class="card p-6 text-center">
     <button id="buyBtn" class="btn font-semibold">
       💳 Купить оптимизацию
     </button>
 
-    <div id="buyMenu" class="toggle mt-4 space-y-2">
+    <div id="buyMenu" class="mt-4 hidden space-y-2">
       <a href="https://t.me/Oder24hzz" target="_blank" class="block btn">Telegram</a>
       <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block btn">DonationAlerts</a>
       <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block btn">DonatePay</a>
     </div>
   </div>
-
-  <!-- ACCORDIONS -->
-  <div class="card p-6 space-y-4">
-
-    <button data-target="inst" class="accordion btn w-full text-sm">
-      Инструкция для покупки
-    </button>
-    <div id="inst" class="toggle text-sm text-gray-300">
-      <p class="mt-2">
-        Для покупки через <b>Telegram</b> напишите, что хотите купить.
-      </p>
-      <p class="mt-2">
-        Если оплатили через <b>DonationAlerts</b> или <b>DonatePay</b>,
-        напишите username и услугу.
-      </p>
-      <p class="mt-2 text-red-400">
-        Если вам не написали — напишите в Telegram
-        <a class="underline" href="https://t.me/Oder24hzz">@Oder24hz</a>
-      </p>
-    </div>
-
-    <button data-target="opt" class="accordion btn w-full text-sm">
-      Что такое оптимизация?
-    </button>
-    <div id="opt" class="toggle text-sm text-gray-300 space-y-2">
-      <p>Оптимизация нужна для повышения FPS и плавности.</p>
-      <p>
-        После оплаты вы скачиваете Anydesk, мы подключаемся и делаем всё сами.
-      </p>
-      <p>
-        Убирается мусор, снижается нагрузка, уменьшаются фризы и input lag.
-      </p>
-    </div>
-
-  </div>
-
 </section>
 
 <!-- PRICES -->
@@ -177,10 +136,31 @@
 </section>
 
 <!-- REVIEWS -->
-<section class="text-center py-10">
-  <h2 class="text-xl font-semibold mb-2">Отзывы</h2>
-  <p class="text-gray-400 mb-4">Реальные отзывы в Telegram</p>
-  <a href="https://t.me/Oder_optim" target="_blank" class="btn">Перейти</a>
+<section class="max-w-5xl mx-auto px-4 py-16">
+  <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        FPS стал стабильнее, пропали фризы. Всё сделали быстро.
+      </p>
+      <p class="mt-3 text-sm font-semibold">— Артём</p>
+    </div>
+
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        Очень доволен, ноутбук стал работать заметно плавнее.
+      </p>
+      <p class="mt-3 text-sm font-semibold">— Влад</p>
+    </div>
+
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        Сделали всё при мне через AnyDesk, объясняли каждый шаг.
+      </p>
+      <p class="mt-3 text-sm font-semibold">— Никита</p>
+    </div>
+  </div>
 </section>
 
 <footer class="text-center text-gray-500 text-sm py-6">
@@ -188,32 +168,6 @@
 </footer>
 
 <script>
-  /* particles */
-  const c=document.getElementById("particles"),x=c.getContext("2d");
-  function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r);
-  let p=[...Array(120)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,
-  s:Math.random()*2+0.5,dx:(Math.random()-.5)*0.3,dy:(Math.random()-.5)*0.3}));
-  (function a(){x.clearRect(0,0,c.width,c.height);
-  p.forEach(e=>{e.x+=e.dx;e.y+=e.dy;
-  if(e.x<0)e.x=c.width;if(e.x>c.width)e.x=0;
-  if(e.y<0)e.y=c.height;if(e.y>c.height)e.y=0;
-  x.fillStyle="rgba(255,255,255,.4)";
-  x.beginPath();x.arc(e.x,e.y,e.s,0,Math.PI*2);x.fill();});
-  requestAnimationFrame(a)})();
-
-  /* buy toggle */
-  buyBtn.onclick=()=>buyMenu.classList.toggle("active");
-
-  /* accordion */
-  document.querySelectorAll(".accordion").forEach(b=>{
-    b.onclick=()=>{
-      const t=document.getElementById(b.dataset.target);
-      document.querySelectorAll(".toggle").forEach(e=>e!==t&&e.classList.remove("active"));
-      document.querySelectorAll(".accordion").forEach(e=>e.classList.remove("active"));
-      t.classList.toggle("active"); b.classList.toggle("active");
-    }
-  });
-</script>
-
-</body>
-</html>
+/* particles */
+const c=document.getElementById("particles"),x=c.getContext("2d");
+function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r)
