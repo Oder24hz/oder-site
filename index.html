@@ -52,6 +52,7 @@ canvas{
   border-radius:1rem;
   padding:12px 24px;
   transition:.3s;
+  cursor:pointer;
 }
 .btn:hover{
   background:white;
@@ -98,12 +99,25 @@ canvas{
     </ul>
   </div>
 
-  <!-- КНОПКА ПОКУПКИ -->
-  <div class="card p-6 text-center">
-    <a href="https://t.me/Oder24hzz" target="_blank" class="btn font-semibold inline-block">
+  <!-- КНОПКА ПОКУПКИ С ОПЛАТАМИ -->
+  <div class="card p-6 text-center relative">
+    <button id="buyBtn" class="btn font-semibold">
       💳 Купить оптимизацию
-    </a>
+    </button>
+
+    <div id="buyMenu" class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
+      <a href="https://t.me/Oder24hzz" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 transition">
+        Telegram
+      </a>
+      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-green-600 hover:bg-green-700 transition">
+        DonationAlerts
+      </a>
+      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 transition">
+        DonatePay
+      </a>
+    </div>
   </div>
+
 </section>
 
 <!-- PRICES -->
@@ -126,7 +140,7 @@ canvas{
   </div>
 </section>
 
-<!-- REVIEWS -->
+<!-- REVIEWS НА САЙТЕ -->
 <section class="max-w-5xl mx-auto px-4 py-16">
   <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
 
@@ -154,7 +168,7 @@ canvas{
   </div>
 </section>
 
-<!-- TELEGRAM BUTTON FOR REVIEWS -->
+<!-- КНОПКА ДЛЯ ОТЗЫВОВ TELEGRAM -->
 <section class="text-center py-10">
   <a href="https://t.me/Oder_optim" target="_blank" class="btn font-semibold inline-block">
     📝 Отзывы Telegram
@@ -188,21 +202,39 @@ let p=[...Array(120)].map(()=>({
   requestAnimationFrame(a);
 })();
 
-/* animated text */
+/* buy button toggle */
+const buyBtn=document.getElementById("buyBtn");
+const buyMenu=document.getElementById("buyMenu");
+buyBtn.addEventListener("click",()=>{
+  const isVisible = buyMenu.classList.contains("opacity-100");
+  buyMenu.classList.toggle("opacity-100", !isVisible);
+  buyMenu.classList.toggle("scale-100", !isVisible);
+  buyMenu.classList.toggle("opacity-0", isVisible);
+  buyMenu.classList.toggle("scale-95", isVisible);
+  buyMenu.classList.toggle("pointer-events-none", isVisible);
+});
+
+/* animated text с разной скоростью */
 const w1=["Лучшая","Прекрасная"];
 const w2=["компьютера","ноутбука"];
 let i=0;
-setInterval(()=>{
+function changeWord1(){
   word1.classList.add("fade-out");
-  word2.classList.add("fade-out");
   setTimeout(()=>{
     i=(i+1)%w1.length;
     word1.textContent=w1[i];
-    word2.textContent=w2[i];
     word1.classList.remove("fade-out");
+  },400);
+}
+function changeWord2(){
+  word2.classList.add("fade-out");
+  setTimeout(()=>{
+    word2.textContent=w2[i];
     word2.classList.remove("fade-out");
   },400);
-},3000);
+}
+setInterval(changeWord1,3000);
+setInterval(()=>setTimeout(changeWord2,500),3000);
 </script>
 
 </body>
