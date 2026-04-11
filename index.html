@@ -11,18 +11,19 @@
 <style>
 body {
   font-family: 'Rubik', sans-serif;
-  background:#050505;
+  background:#000;
   color:white;
   overflow-x:hidden;
 }
 
+/* фоновые мягкие пятна убрал лишнюю "серость" */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.06), transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 40%);
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.04), transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,.03), transparent 45%);
   z-index:-2;
 }
 
@@ -33,10 +34,13 @@ canvas{
   pointer-events:none;
 }
 
+/* карточки уже и аккуратнее */
 .card{
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
   border-radius:1rem;
+  max-width:42rem;
+  margin:0 auto;
 }
 
 .card-hover{
@@ -60,7 +64,7 @@ canvas{
   transform:scale(1.05);
 }
 
-/* animated text */
+/* текст */
 .fade-word{
   display:inline-block;
   transition:opacity .4s, transform .4s;
@@ -68,6 +72,27 @@ canvas{
 .fade-out{
   opacity:0;
   transform:translateY(8px);
+}
+
+/* ORBIT анимация вокруг заголовка */
+.orbit-wrap{
+  position:relative;
+  display:inline-block;
+}
+
+.orbit{
+  position:absolute;
+  inset:-18px;
+  border-radius:9999px;
+  border:2px solid rgba(255,255,255,.15);
+  border-top-color:white;
+  border-right-color:white;
+  animation:spin 1.4s linear infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
 }
 </style>
 </head>
@@ -78,7 +103,11 @@ canvas{
 
 <!-- HERO -->
 <header class="text-center py-20 px-4">
-  <h1 class="text-5xl sm:text-6xl font-bold mb-4">Oder24Hz</h1>
+
+  <div class="orbit-wrap mb-4">
+    <h1 class="text-5xl sm:text-6xl font-bold">Oder24Hz</h1>
+    <span class="orbit"></span>
+  </div>
 
   <p class="text-gray-300 text-lg">
     <span id="word1" class="fade-word">Лучшая</span>
@@ -99,20 +128,19 @@ canvas{
     </ul>
   </div>
 
-  <!-- КНОПКА ПОКУПКИ С ОПЛАТАМИ -->
   <div class="card p-6 text-center relative">
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
     </button>
 
     <div id="buyMenu" class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
-      <a href="https://t.me/OderOptimization" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 transition">
+      <a href="https://t.me/OderOptimization" target="_blank" class="block text-center py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700">
         Telegram
       </a>
-      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-green-600 hover:bg-green-700 transition">
+      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="block text-center py-2 px-4 rounded-lg bg-green-600 hover:bg-green-700">
         DonationAlerts
       </a>
-      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block w-full text-center py-2 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 transition">
+      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="block text-center py-2 px-4 rounded-lg bg-purple-600 hover:bg-purple-700">
         DonatePay
       </a>
     </div>
@@ -125,52 +153,15 @@ canvas{
   <h2 class="text-xl font-semibold text-center mb-6">Цены</h2>
 
   <div class="grid gap-4">
-    <div class="card card-hover p-4 flex justify-between">
-      <span>Оптимизация Windows</span><span>150₽</span>
-    </div>
-    <div class="card card-hover p-4 flex justify-between">
-      <span>Оптимизация Bluestacks</span><span>250₽</span>
-    </div>
-    <div class="card card-hover p-4 flex justify-between">
-      <span>Настройка Bluestacks</span><span>50₽</span>
-    </div>
-    <div class="card card-hover p-4 flex justify-between">
-      <span>Удаление вирусов</span><span>100₽</span>
-    </div>
+    <div class="card card-hover p-4 flex justify-between">Оптимизация Windows <span>150₽</span></div>
+    <div class="card card-hover p-4 flex justify-between">Оптимизация Bluestacks <span>250₽</span></div>
+    <div class="card card-hover p-4 flex justify-between">Настройка Bluestacks <span>50₽</span></div>
+    <div class="card card-hover p-4 flex justify-between">Удаление вирусов <span>100₽</span></div>
   </div>
 </section>
 
-<!-- REVIEWS НА САЙТЕ -->
-<section class="max-w-5xl mx-auto px-4 py-16">
-  <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
-
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">
-        Одер не бросил в беде помог оптимка в космоса ФПС ахуел от жизни
-      </p>
-      <p class="mt-3 text-sm font-semibold">— ianchik</p>
-    </div>
-
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">
-        Всем советую блюстаксы от одера, на rtx 4060ti и ryzen 5 7500f получаю стабильные 400 фпс
-      </p>
-      <p class="mt-3 text-sm font-semibold">— linck</p>
-    </div>
-
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">
-        Жесткий фпс на i3 12100f и gtx 1650, не ожидал такой ахуеной оптимизации, до этого были фризы (больше нету) спасибо Одер
-      </p>
-      <p class="mt-3 text-sm font-semibold">— Fa1ston</p>
-    </div>
-  </div>
-</section>
-
-<!-- КНОПКА ДЛЯ ОТЗЫВОВ TELEGRAM -->
 <section class="text-center py-10">
-  <a href="https://t.me/Oder_optim" target="_blank" class="btn font-semibold inline-block">
+  <a href="https://t.me/Oder_optim" target="_blank" class="btn inline-block">
     Отзывы Telegram
   </a>
 </section>
@@ -180,44 +171,76 @@ canvas{
 </footer>
 
 <script>
-/* particles */
+/* CONNECTED PARTICLES */
 const c=document.getElementById("particles"),x=c.getContext("2d");
-function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r);
-let p=[...Array(120)].map(()=>({
+function r(){c.width=innerWidth;c.height=innerHeight}r();
+addEventListener("resize",r);
+
+let p=[...Array(90)].map(()=>({
   x:Math.random()*c.width,
   y:Math.random()*c.height,
-  s:Math.random()*2+0.5,
-  dx:(Math.random()-.5)*0.3,
-  dy:(Math.random()-.5)*0.3
+  s:Math.random()*2,
+  dx:(Math.random()-.5)*0.4,
+  dy:(Math.random()-.5)*0.4
 }));
+
+function dist(a,b){
+  return Math.hypot(a.x-b.x,a.y-b.y);
+}
+
 (function a(){
   x.clearRect(0,0,c.width,c.height);
+
+  // линии между частицами
+  for(let i=0;i<p.length;i++){
+    for(let j=i+1;j<p.length;j++){
+      let d=dist(p[i],p[j]);
+      if(d<120){
+        x.strokeStyle=`rgba(255,255,255,${1-d/120})`;
+        x.lineWidth=1;
+        x.beginPath();
+        x.moveTo(p[i].x,p[i].y);
+        x.lineTo(p[j].x,p[j].y);
+        x.stroke();
+      }
+    }
+  }
+
+  // частицы
   p.forEach(e=>{
     e.x+=e.dx;e.y+=e.dy;
-    if(e.x<0)e.x=c.width;if(e.x>c.width)e.x=0;
-    if(e.y<0)e.y=c.height;if(e.y>c.height)e.y=0;
-    x.fillStyle="rgba(255,255,255,.4)";
-    x.beginPath();x.arc(e.x,e.y,e.s,0,Math.PI*2);x.fill();
+    if(e.x<0)e.x=c.width;
+    if(e.x>c.width)e.x=0;
+    if(e.y<0)e.y=c.height;
+    if(e.y>c.height)e.y=0;
+
+    x.fillStyle="rgba(255,255,255,.5)";
+    x.beginPath();
+    x.arc(e.x,e.y,e.s,0,Math.PI*2);
+    x.fill();
   });
+
   requestAnimationFrame(a);
 })();
 
-/* buy button toggle */
+/* buy menu */
 const buyBtn=document.getElementById("buyBtn");
 const buyMenu=document.getElementById("buyMenu");
 buyBtn.addEventListener("click",()=>{
-  const isVisible = buyMenu.classList.contains("opacity-100");
-  buyMenu.classList.toggle("opacity-100", !isVisible);
-  buyMenu.classList.toggle("scale-100", !isVisible);
-  buyMenu.classList.toggle("opacity-0", isVisible);
-  buyMenu.classList.toggle("scale-95", isVisible);
-  buyMenu.classList.toggle("pointer-events-none", isVisible);
+  const open = buyMenu.classList.contains("opacity-100");
+
+  buyMenu.classList.toggle("opacity-100", !open);
+  buyMenu.classList.toggle("scale-100", !open);
+  buyMenu.classList.toggle("opacity-0", open);
+  buyMenu.classList.toggle("scale-95", open);
+  buyMenu.classList.toggle("pointer-events-none", open);
 });
 
-/* animated text с разной скоростью */
+/* text animation */
 const w1=["Лучшая","Прекрасная"];
 const w2=["компьютера","ноутбука"];
 let i=0;
+
 function changeWord1(){
   word1.classList.add("fade-out");
   setTimeout(()=>{
@@ -226,6 +249,7 @@ function changeWord1(){
     word1.classList.remove("fade-out");
   },400);
 }
+
 function changeWord2(){
   word2.classList.add("fade-out");
   setTimeout(()=>{
@@ -233,6 +257,7 @@ function changeWord2(){
     word2.classList.remove("fade-out");
   },400);
 }
+
 setInterval(changeWord1,3000);
 setInterval(()=>setTimeout(changeWord2,500),3000);
 </script>
