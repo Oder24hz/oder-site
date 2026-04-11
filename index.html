@@ -16,11 +16,11 @@ body {
   overflow-x:hidden;
 }
 
-/* glow текста */
 h1,h2,p,span,li {
   text-shadow: 0 0 8px rgba(255,255,255,0.12);
 }
 
+/* background glow */
 body::before{
   content:"";
   position:fixed;
@@ -38,8 +38,10 @@ canvas{
   pointer-events:none;
 }
 
-/* карточки */
+/* cards */
 .card{
+  position: relative;
+  z-index: 1;
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
   border-radius:1.2rem;
@@ -56,7 +58,7 @@ canvas{
   box-shadow: 0 0 40px rgba(255,255,255,0.12);
 }
 
-/* кнопка купить */
+/* button */
 .btn{
   border:1px solid rgba(255,255,255,0.6);
   border-radius:1rem;
@@ -68,20 +70,6 @@ canvas{
   z-index:2;
 }
 
-/* glow swipe */
-.btn::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,.4), transparent);
-  opacity:0;
-  transition:.4s;
-  pointer-events:none;
-}
-.btn:hover::after{
-  opacity:1;
-  transform:translateX(100%);
-}
 .btn:hover{
   background:white;
   color:black;
@@ -90,7 +78,22 @@ canvas{
 
 /* BUY MENU FIX */
 #buyMenu{
-  z-index:100;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) scale(0.95);
+  margin-top:12px;
+
+  z-index:9999;
+
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+#buyMenu.show{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
+  pointer-events:auto;
 }
 
 /* PAY BUTTONS */
@@ -104,65 +107,60 @@ canvas{
   color:black;
   position:relative;
   overflow:hidden;
-  background:white;
-  transition:.3s;
 }
 
-/* shine */
-.pay-btn::before{
+/* shimmer */
+.pay-btn::after{
   content:"";
   position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,.8), transparent);
-  opacity:0;
-  transition:.4s;
-  pointer-events:none;
+  inset:-200%;
+  animation: shimmer 4s linear infinite;
+  opacity:.6;
 }
 
-.pay-btn:hover::before{
-  opacity:1;
-  transform:translateX(120%);
+@keyframes shimmer{
+  0%{transform:translateX(-30%);}
+  100%{transform:translateX(30%);}
 }
 
 /* TELEGRAM */
 .tg{
-  background:linear-gradient(120deg, #ffffff, #e6f4ff, #ffffff);
+  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
 }
-.tg:hover{
-  background:linear-gradient(120deg, #ffffff, #3aa6ff, #ffffff);
+.tg::after{
+  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
 }
 
 /* DONATIONALERTS */
 .da{
-  background:linear-gradient(120deg, #ffffff, #fff2e6, #ffffff);
+  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
 }
-.da:hover{
-  background:linear-gradient(120deg, #ffffff, #ff8c00, #ffffff);
+.da::after{
+  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
 }
 
 /* DONATEPAY */
 .dp{
-  background:linear-gradient(120deg, #ffffff, #f3e6ff, #ffffff);
+  background:linear-gradient(120deg,#fff,#a855f7,#fff);
 }
-.dp:hover{
-  background:linear-gradient(120deg, #ffffff, #a855f7, #ffffff);
+.dp::after{
+  background:linear-gradient(120deg,#fff,#a855f7,#fff);
 }
 
-/* scroll reveal */
+/* reveal */
 .reveal{
   opacity:0;
   transform:translateY(40px);
-  transition:all .8s ease;
+  transition:.8s;
 }
 .reveal.active{
   opacity:1;
   transform:translateY(0);
 }
 
-/* text animation */
 .fade-word{
   display:inline-block;
-  transition:opacity .4s, transform .4s;
+  transition:.4s;
 }
 .fade-out{
   opacity:0;
@@ -177,7 +175,6 @@ canvas{
 
 <header class="text-center py-16 px-4 reveal">
   <h1 class="text-5xl font-bold mb-4">Oder24Hz</h1>
-
   <p class="text-gray-300 text-lg">
     <span id="word1" class="fade-word">Лучшая</span>
     оптимизация для твоего
@@ -185,83 +182,36 @@ canvas{
   </p>
 </header>
 
-<!-- WHAT I OFFER -->
 <section class="max-w-xl mx-auto px-4 space-y-4 reveal">
 
   <div class="card text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
     <ul class="space-y-2 text-gray-200">
-      <li>• Оптимизация Windows — ускорение, удаление мусора</li>
-      <li>• Bluestacks — FPS, плавность, сенса</li>
-      <li>• Быстрая настройка Bluestacks</li>
+      <li>• Оптимизация Windows</li>
+      <li>• Bluestacks FPS boost</li>
+      <li>• Быстрая настройка</li>
     </ul>
   </div>
 
   <div class="card text-center relative">
+
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
     </button>
 
-    <div id="buyMenu" class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
+    <div id="buyMenu" class="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-4 text-sm space-y-2">
 
       <a href="https://t.me/OderOptimization" target="_blank" class="pay-btn tg">Telegram</a>
-
       <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="pay-btn da">DonationAlerts</a>
-
       <a href="https://new.donatepay.ru/@1292052" target="_blank" class="pay-btn dp">DonatePay</a>
 
     </div>
-  </div>
-
-</section>
-
-<!-- PRICES -->
-<section class="max-w-xl mx-auto px-4 py-10 reveal">
-  <h2 class="text-xl font-semibold text-center mb-6">Цены</h2>
-
-  <div class="grid gap-4">
-    <div class="card card-hover flex justify-between">
-      <span>Оптимизация Windows</span><span>150₽</span>
-    </div>
-    <div class="card card-hover flex justify-between">
-      <span>Оптимизация Bluestacks</span><span>250₽</span>
-    </div>
-    <div class="card card-hover flex justify-between">
-      <span>Настройка Bluestacks</span><span>50₽</span>
-    </div>
-    <div class="card card-hover flex justify-between">
-      <span>Удаление вирусов</span><span>100₽</span>
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="max-w-4xl mx-auto px-4 py-12 reveal">
-  <h2 class="text-2xl font-semibold text-center mb-8">Отзывы клиентов</h2>
-
-  <div class="grid md:grid-cols-3 gap-6">
-
-    <div class="card">
-      <p class="text-sm text-gray-300">Одер не бросил в беде помог оптимка...</p>
-      <p class="mt-3 text-sm font-semibold">— ianchik</p>
-    </div>
-
-    <div class="card">
-      <p class="text-sm text-gray-300">Всем советую блюстаксы...</p>
-      <p class="mt-3 text-sm font-semibold">— linck</p>
-    </div>
-
-    <div class="card">
-      <p class="text-sm text-gray-300">Жесткий фпс на i3...</p>
-      <p class="mt-3 text-sm font-semibold">— Fa1ston</p>
-    </div>
 
   </div>
 </section>
 
-<!-- TG BUTTON -->
 <section class="text-center py-8 reveal">
-  <a href="https://t.me/Oder_optim" target="_blank" class="btn inline-block font-semibold">
+  <a href="https://t.me/Oder_optim" class="btn inline-block font-semibold">
     Отзывы Telegram
   </a>
 </section>
@@ -271,92 +221,66 @@ canvas{
 </footer>
 
 <script>
-/* particles */
+// particles
 const c=document.getElementById("particles"),x=c.getContext("2d");
 function r(){c.width=innerWidth;c.height=innerHeight}r();
 addEventListener("resize",r);
 
-let p=[...Array(80)].map(()=>({
-  x:Math.random()*c.width,
-  y:Math.random()*c.height,
-  dx:(Math.random()-.5)*0.4,
-  dy:(Math.random()-.5)*0.4
+let p=[...Array(60)].map(()=>({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+dx:(Math.random()-.5)*0.4,
+dy:(Math.random()-.5)*0.4
 }));
 
 function draw(){
-  x.clearRect(0,0,c.width,c.height);
+x.clearRect(0,0,c.width,c.height);
+p.forEach(e=>{
+e.x+=e.dx;e.y+=e.dy;
+if(e.x<0||e.x>c.width)e.dx*=-1;
+if(e.y<0||e.y>c.height)e.dy*=-1;
 
-  for(let i=0;i<p.length;i++){
-    let e=p[i];
-    e.x+=e.dx; e.y+=e.dy;
-
-    if(e.x<0||e.x>c.width)e.dx*=-1;
-    if(e.y<0||e.y>c.height)e.dy*=-1;
-
-    x.fillStyle="white";
-    x.beginPath();
-    x.arc(e.x,e.y,1.4,0,Math.PI*2);
-    x.fill();
-
-    for(let j=i+1;j<p.length;j++){
-      let e2=p[j];
-      let d=Math.hypot(e.x-e2.x,e.y-e2.y);
-      if(d<120){
-        x.strokeStyle="rgba(255,255,255,"+(1-d/120)*0.2+")";
-        x.beginPath();
-        x.moveTo(e.x,e.y);
-        x.lineTo(e2.x,e2.y);
-        x.stroke();
-      }
-    }
-  }
-
-  requestAnimationFrame(draw);
+x.fillStyle="white";
+x.beginPath();
+x.arc(e.x,e.y,1.3,0,Math.PI*2);
+x.fill();
+});
+requestAnimationFrame(draw);
 }
 draw();
 
-/* scroll reveal */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting)e.target.classList.add("active");
-  });
+// reveal
+const obs=new IntersectionObserver(e=>{
+e.forEach(v=>{if(v.isIntersecting)v.target.classList.add("active")});
 });
 document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
 
-/* buy menu */
-const buyBtn=document.getElementById("buyBtn");
-const buyMenu=document.getElementById("buyMenu");
+// menu
+const btn=document.getElementById("buyBtn");
+const menu=document.getElementById("buyMenu");
 
-buyBtn.onclick=()=>{
-  const open = buyMenu.classList.contains("opacity-100");
+btn.onclick=()=>menu.classList.toggle("show");
 
-  buyMenu.classList.toggle("opacity-100",!open);
-  buyMenu.classList.toggle("scale-100",!open);
-  buyMenu.classList.toggle("opacity-0",open);
-  buyMenu.classList.toggle("scale-95",open);
-  buyMenu.classList.toggle("pointer-events-none",open);
-};
-
-/* text animation */
-const w1=["Лучшая","Прекрасная"];
+// text swap
+const w1=["Лучшая","Крутая"];
 const w2=["компьютера","ноутбука"];
 let i=0;
 
 setInterval(()=>{
-  word1.classList.add("fade-out");
-  setTimeout(()=>{
-    i=(i+1)%w1.length;
-    word1.textContent=w1[i];
-    word1.classList.remove("fade-out");
-  },300);
+word1.classList.add("fade-out");
+setTimeout(()=>{
+i=(i+1)%w1.length;
+word1.textContent=w1[i];
+word1.classList.remove("fade-out");
+},300);
 },3000);
 
 setInterval(()=>{
-  word2.classList.add("fade-out");
-  setTimeout(()=>{
-    word2.textContent=w2[i];
-    word2.classList.remove("fade-out");
-  },300);
+word2.classList.add("fade-out");
+setTimeout(()=>{
+word2.textContent=w2[i];
+word2.classList.remove("fade-out");
+},300);
 },3000);
 
 </script>
