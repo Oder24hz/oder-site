@@ -16,7 +16,7 @@ body {
   overflow-x:hidden;
 }
 
-/* particles */
+/* canvas */
 canvas{
   position:fixed;
   inset:0;
@@ -24,23 +24,20 @@ canvas{
   pointer-events:none;
 }
 
-/* 🌫 GLASS EFFECT (iOS style) */
+/* GLASS */
 .glass {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-/* hover glass */
-.glass-hover {
-  transition: .25s;
+/* hover */
+.glass-hover{
+  transition:.25s;
 }
-.glass-hover:hover {
+.glass-hover:hover{
   transform: translateY(-4px);
   background: rgba(255,255,255,0.09);
 }
@@ -52,7 +49,6 @@ canvas{
   padding:12px 22px;
   transition:.3s;
   cursor:pointer;
-  backdrop-filter: blur(10px);
 }
 .btn:hover{
   background:white;
@@ -60,32 +56,24 @@ canvas{
   transform:scale(1.05);
 }
 
-/* glow title */
+/* glow */
 @keyframes glowPulse {
-  0% {
-    text-shadow: 0 0 6px rgba(255,255,255,.25);
-  }
-  50% {
-    text-shadow: 0 0 25px rgba(255,255,255,.8),
-                 0 0 60px rgba(255,255,255,.3);
-  }
-  100% {
-    text-shadow: 0 0 6px rgba(255,255,255,.25);
-  }
+  0% { text-shadow:0 0 6px rgba(255,255,255,.2); }
+  50% { text-shadow:0 0 25px rgba(255,255,255,.8); }
+  100% { text-shadow:0 0 6px rgba(255,255,255,.2); }
 }
-
 .glow-title{
   animation: glowPulse 2.5s infinite ease-in-out;
 }
 
-/* text fade */
+/* text */
 .fade-word{
+  transition:.4s;
   display:inline-block;
-  transition:opacity .4s, transform .4s;
 }
 .fade-out{
   opacity:0;
-  transform:translateY(8px);
+  transform:translateY(6px);
 }
 </style>
 </head>
@@ -94,20 +82,19 @@ canvas{
 
 <canvas id="particles"></canvas>
 
-<!-- HERO -->
+<!-- HEADER -->
 <header class="text-center py-20 px-4">
-  <h1 class="text-5xl sm:text-6xl font-bold mb-4 glow-title">Oder24Hz</h1>
+  <h1 class="text-5xl font-bold glow-title mb-4">Oder24Hz</h1>
 
-  <p class="text-gray-300 text-lg">
-    <span id="word1" class="fade-word">Лучшая</span>
+  <p class="text-gray-300">
+    <span id="word1">Лучшая</span>
     оптимизация для твоего
-    <span id="word2" class="fade-word">компьютера</span>
+    <span id="word2">компьютера</span>
   </p>
 </header>
 
 <!-- WHAT I OFFER -->
-<section class="max-w-3xl mx-auto px-4 space-y-6">
-
+<section class="px-4 mb-10">
   <div class="glass glass-hover p-5 max-w-md mx-auto text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
     <ul class="space-y-2 text-gray-200 text-sm">
@@ -116,49 +103,35 @@ canvas{
       <li>• Быстрая настройка Bluestacks</li>
     </ul>
   </div>
-
 </section>
 
 <!-- BUY -->
-<div class="glass glass-hover p-5 max-w-md mx-auto text-center relative mt-8">
+<section class="px-4 mb-12">
+  <div class="glass glass-hover p-5 max-w-md mx-auto text-center relative">
 
-  <button id="buyBtn" class="btn font-semibold">
-    Купить оптимизацию
-  </button>
+    <button id="buyBtn" class="btn font-semibold">
+      Купить оптимизацию
+    </button>
 
-  <div id="buyMenu"
-       class="absolute left-1/2 -translate-x-1/2 mt-4 w-56 glass p-3 text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
+    <div id="buyMenu"
+         class="absolute left-1/2 -translate-x-1/2 mt-4 w-56 glass p-3 text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
 
-    <a href="https://t.me/OderOptimization" target="_blank"
-       class="block text-center py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition">
-      Telegram
-    </a>
+      <a href="https://t.me/OderOptimization" class="block py-2 bg-blue-600 rounded-lg">Telegram</a>
+      <a href="https://www.donationalerts.com/r/oder24hz" class="block py-2 bg-green-600 rounded-lg">DonationAlerts</a>
+      <a href="https://new.donatepay.ru/@1292052" class="block py-2 bg-purple-600 rounded-lg">DonatePay</a>
 
-    <a href="https://www.donationalerts.com/r/oder24hz" target="_blank"
-       class="block text-center py-2 rounded-lg bg-green-600 hover:bg-green-700 transition">
-      DonationAlerts
-    </a>
-
-    <a href="https://new.donatepay.ru/@1292052" target="_blank"
-       class="block text-center py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition">
-      DonatePay
-    </a>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- SCRIPTS -->
 <script>
-/* particles + lines */
+/* particles */
 const c=document.getElementById("particles"),x=c.getContext("2d");
 
-function resize(){
-  c.width=innerWidth;
-  c.height=innerHeight;
-}
-resize();
-addEventListener("resize",resize);
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize();addEventListener("resize",resize);
 
-let p=[...Array(85)].map(()=>({
+let p=[...Array(70)].map(()=>({
   x:Math.random()*c.width,
   y:Math.random()*c.height,
   s:Math.random()*2,
@@ -166,20 +139,16 @@ let p=[...Array(85)].map(()=>({
   dy:(Math.random()-.5)*0.6
 }));
 
-function dist(a,b){
-  return Math.hypot(a.x-b.x,a.y-b.y);
-}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
 
 function loop(){
   x.clearRect(0,0,c.width,c.height);
 
-  // lines
   for(let i=0;i<p.length;i++){
     for(let j=i+1;j<p.length;j++){
       let d=dist(p[i],p[j]);
-      if(d<140){
-        x.strokeStyle=`rgba(255,255,255,${1-d/140})`;
-        x.lineWidth=1;
+      if(d<130){
+        x.strokeStyle=`rgba(255,255,255,${1-d/130})`;
         x.beginPath();
         x.moveTo(p[i].x,p[i].y);
         x.lineTo(p[j].x,p[j].y);
@@ -188,7 +157,6 @@ function loop(){
     }
   }
 
-  // particles
   p.forEach(e=>{
     e.x+=e.dx;
     e.y+=e.dy;
@@ -208,44 +176,36 @@ function loop(){
 }
 loop();
 
-/* buy menu */
-const buyBtn=document.getElementById("buyBtn");
-const buyMenu=document.getElementById("buyMenu");
+/* menu */
+buyBtn.onclick=()=>{
+  buyMenu.classList.toggle("opacity-100");
+  buyMenu.classList.toggle("scale-100");
+  buyMenu.classList.toggle("opacity-0");
+  buyMenu.classList.toggle("scale-95");
+  buyMenu.classList.toggle("pointer-events-none");
+};
 
-buyBtn.addEventListener("click",()=>{
-  const open = buyMenu.classList.contains("opacity-100");
-
-  buyMenu.classList.toggle("opacity-100", !open);
-  buyMenu.classList.toggle("scale-100", !open);
-  buyMenu.classList.toggle("opacity-0", open);
-  buyMenu.classList.toggle("scale-95", open);
-  buyMenu.classList.toggle("pointer-events-none", open);
-});
-
-/* text animation */
+/* text */
 const w1=["Лучшая","Прекрасная"];
 const w2=["компьютера","ноутбука"];
 let i=0;
 
-function change1(){
+setInterval(()=>{
   word1.classList.add("fade-out");
   setTimeout(()=>{
     i=(i+1)%w1.length;
     word1.textContent=w1[i];
     word1.classList.remove("fade-out");
-  },400);
-}
+  },300);
+},3000);
 
-function change2(){
+setInterval(()=>{
   word2.classList.add("fade-out");
   setTimeout(()=>{
     word2.textContent=w2[i];
     word2.classList.remove("fade-out");
-  },400);
-}
-
-setInterval(change1,3000);
-setInterval(()=>setTimeout(change2,500),3000);
+  },300);
+},3200);
 </script>
 
 </body>
