@@ -16,6 +16,11 @@ body {
   overflow-x:hidden;
 }
 
+/* мягкое свечение текста */
+h1,h2,p,span,li {
+  text-shadow: 0 0 8px rgba(255,255,255,0.15);
+}
+
 body::before{
   content:"";
   position:fixed;
@@ -33,31 +38,63 @@ canvas{
   pointer-events:none;
 }
 
+/* ДОРОГИЕ карточки */
 .card{
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:1rem;
+  border-radius:1.2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(255,255,255,0.05);
 }
 
 .card-hover{
-  transition:.3s;
+  transition:.4s;
 }
 .card-hover:hover{
-  transform:translateY(-4px);
-  background:rgba(255,255,255,.07);
+  transform:translateY(-6px) scale(1.01);
+  box-shadow: 0 0 40px rgba(255,255,255,0.12);
 }
 
+/* кнопки */
 .btn{
-  border:1px solid white;
+  border:1px solid rgba(255,255,255,0.6);
   border-radius:1rem;
   padding:12px 24px;
   transition:.3s;
   cursor:pointer;
+  position:relative;
+  overflow:hidden;
 }
+
+/* glow hover */
+.btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.4), transparent);
+  opacity:0;
+  transition:.4s;
+}
+.btn:hover::after{
+  opacity:1;
+  transform:translateX(100%);
+}
+
 .btn:hover{
   background:white;
   color:black;
   transform:scale(1.05);
+}
+
+/* scroll animation */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .8s ease;
+}
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
 }
 
 /* animated text */
@@ -76,8 +113,7 @@ canvas{
 
 <canvas id="particles"></canvas>
 
-<!-- HERO -->
-<header class="text-center py-20 px-4">
+<header class="text-center py-20 px-4 reveal">
   <h1 class="text-5xl sm:text-6xl font-bold mb-4">Oder24Hz</h1>
 
   <p class="text-gray-300 text-lg">
@@ -87,8 +123,7 @@ canvas{
   </p>
 </header>
 
-<!-- CONTENT -->
-<section class="max-w-3xl mx-auto px-4 space-y-6">
+<section class="max-w-2xl mx-auto px-4 space-y-6 reveal">
 
   <div class="card p-6 text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
@@ -99,7 +134,6 @@ canvas{
     </ul>
   </div>
 
-  <!-- КНОПКА ПОКУПКИ С ОПЛАТАМИ -->
   <div class="card p-6 text-center relative">
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
@@ -120,8 +154,7 @@ canvas{
 
 </section>
 
-<!-- PRICES -->
-<section class="max-w-3xl mx-auto px-4 py-12">
+<section class="max-w-2xl mx-auto px-4 py-12 reveal">
   <h2 class="text-xl font-semibold text-center mb-6">Цены</h2>
 
   <div class="grid gap-4">
@@ -140,8 +173,7 @@ canvas{
   </div>
 </section>
 
-<!-- REVIEWS НА САЙТЕ -->
-<section class="max-w-5xl mx-auto px-4 py-16">
+<section class="max-w-4xl mx-auto px-4 py-16 reveal">
   <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
 
   <div class="grid md:grid-cols-3 gap-6">
@@ -168,8 +200,7 @@ canvas{
   </div>
 </section>
 
-<!-- КНОПКА ДЛЯ ОТЗЫВОВ TELEGRAM -->
-<section class="text-center py-10">
+<section class="text-center py-10 reveal">
   <a href="https://t.me/Oder_optim" target="_blank" class="btn font-semibold inline-block">
     Отзывы Telegram
   </a>
@@ -180,29 +211,61 @@ canvas{
 </footer>
 
 <script>
-/* particles */
+/* particles с линиями */
 const c=document.getElementById("particles"),x=c.getContext("2d");
 function r(){c.width=innerWidth;c.height=innerHeight}r();addEventListener("resize",r);
-let p=[...Array(120)].map(()=>({
+
+let p=[...Array(90)].map(()=>({
   x:Math.random()*c.width,
   y:Math.random()*c.height,
-  s:Math.random()*2+0.5,
-  dx:(Math.random()-.5)*0.3,
-  dy:(Math.random()-.5)*0.3
+  dx:(Math.random()-.5)*0.4,
+  dy:(Math.random()-.5)*0.4
 }));
+
 (function a(){
   x.clearRect(0,0,c.width,c.height);
-  p.forEach(e=>{
-    e.x+=e.dx;e.y+=e.dy;
-    if(e.x<0)e.x=c.width;if(e.x>c.width)e.x=0;
-    if(e.y<0)e.y=c.height;if(e.y>c.height)e.y=0;
-    x.fillStyle="rgba(255,255,255,.4)";
-    x.beginPath();x.arc(e.x,e.y,e.s,0,Math.PI*2);x.fill();
-  });
+
+  for(let i=0;i<p.length;i++){
+    let e=p[i];
+    e.x+=e.dx; e.y+=e.dy;
+
+    if(e.x<0||e.x>c.width)e.dx*=-1;
+    if(e.y<0||e.y>c.height)e.dy*=-1;
+
+    x.beginPath();
+    x.arc(e.x,e.y,1.5,0,Math.PI*2);
+    x.fillStyle="white";
+    x.fill();
+
+    for(let j=i+1;j<p.length;j++){
+      let e2=p[j];
+      let d=Math.hypot(e.x-e2.x,e.y-e2.y);
+      if(d<120){
+        x.strokeStyle="rgba(255,255,255,"+(1-d/120)*0.2+")";
+        x.lineWidth=1;
+        x.beginPath();
+        x.moveTo(e.x,e.y);
+        x.lineTo(e2.x,e2.y);
+        x.stroke();
+      }
+    }
+  }
+
   requestAnimationFrame(a);
 })();
 
-/* buy button toggle */
+/* scroll reveal */
+const reveals=document.querySelectorAll(".reveal");
+window.addEventListener("scroll",()=>{
+  reveals.forEach(el=>{
+    const top=el.getBoundingClientRect().top;
+    if(top < window.innerHeight-80){
+      el.classList.add("active");
+    }
+  });
+});
+
+/* buy button */
 const buyBtn=document.getElementById("buyBtn");
 const buyMenu=document.getElementById("buyMenu");
 buyBtn.addEventListener("click",()=>{
@@ -214,10 +277,11 @@ buyBtn.addEventListener("click",()=>{
   buyMenu.classList.toggle("pointer-events-none", isVisible);
 });
 
-/* animated text с разной скоростью */
+/* animated text */
 const w1=["Лучшая","Прекрасная"];
 const w2=["компьютера","ноутбука"];
 let i=0;
+
 function changeWord1(){
   word1.classList.add("fade-out");
   setTimeout(()=>{
@@ -226,6 +290,7 @@ function changeWord1(){
     word1.classList.remove("fade-out");
   },400);
 }
+
 function changeWord2(){
   word2.classList.add("fade-out");
   setTimeout(()=>{
@@ -233,6 +298,7 @@ function changeWord2(){
     word2.classList.remove("fade-out");
   },400);
 }
+
 setInterval(changeWord1,3000);
 setInterval(()=>setTimeout(changeWord2,500),3000);
 </script>
