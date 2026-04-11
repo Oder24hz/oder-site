@@ -68,7 +68,13 @@ canvas{
   z-index:2;
 }
 
-/* glow swipe */
+.btn:hover{
+  background:white;
+  color:black;
+  transform:scale(1.05);
+}
+
+/* swipe */
 .btn::after{
   content:"";
   position:absolute;
@@ -76,21 +82,31 @@ canvas{
   background:linear-gradient(120deg, transparent, rgba(255,255,255,.4), transparent);
   opacity:0;
   transition:.4s;
-  pointer-events:none;
 }
 .btn:hover::after{
   opacity:1;
   transform:translateX(100%);
 }
-.btn:hover{
-  background:white;
-  color:black;
-  transform:scale(1.05);
-}
 
 /* BUY MENU FIX */
 #buyMenu{
-  z-index:100;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  margin-top:12px;
+
+  z-index:9999;
+
+  opacity:0;
+  scale:0.95;
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+#buyMenu.show{
+  opacity:1;
+  scale:1;
+  pointer-events:auto;
 }
 
 /* PAY BUTTONS */
@@ -104,48 +120,44 @@ canvas{
   color:black;
   position:relative;
   overflow:hidden;
-  background:white;
-  transition:.3s;
 }
 
-/* shine */
-.pay-btn::before{
+/* shimmer */
+.pay-btn::after{
   content:"";
   position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,.8), transparent);
-  opacity:0;
-  transition:.4s;
-  pointer-events:none;
+  inset:-200%;
+  animation:shine 4s linear infinite;
+  opacity:.7;
 }
 
-.pay-btn:hover::before{
-  opacity:1;
-  transform:translateX(120%);
+@keyframes shine{
+  0%{transform:translateX(-30%);}
+  100%{transform:translateX(30%);}
 }
 
 /* TELEGRAM */
 .tg{
-  background:linear-gradient(120deg, #ffffff, #e6f4ff, #ffffff);
+  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
 }
-.tg:hover{
-  background:linear-gradient(120deg, #ffffff, #3aa6ff, #ffffff);
+.tg::after{
+  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
 }
 
 /* DONATIONALERTS */
 .da{
-  background:linear-gradient(120deg, #ffffff, #fff2e6, #ffffff);
+  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
 }
-.da:hover{
-  background:linear-gradient(120deg, #ffffff, #ff8c00, #ffffff);
+.da::after{
+  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
 }
 
 /* DONATEPAY */
 .dp{
-  background:linear-gradient(120deg, #ffffff, #f3e6ff, #ffffff);
+  background:linear-gradient(120deg,#fff,#a855f7,#fff);
 }
-.dp:hover{
-  background:linear-gradient(120deg, #ffffff, #a855f7, #ffffff);
+.dp::after{
+  background:linear-gradient(120deg,#fff,#a855f7,#fff);
 }
 
 /* scroll reveal */
@@ -202,12 +214,10 @@ canvas{
       Купить оптимизацию
     </button>
 
-    <div id="buyMenu" class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
+    <div id="buyMenu" class="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2">
 
       <a href="https://t.me/OderOptimization" target="_blank" class="pay-btn tg">Telegram</a>
-
       <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="pay-btn da">DonationAlerts</a>
-
       <a href="https://new.donatepay.ru/@1292052" target="_blank" class="pay-btn dp">DonatePay</a>
 
     </div>
@@ -323,18 +333,12 @@ const obs=new IntersectionObserver(entries=>{
 });
 document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
 
-/* buy menu */
+/* BUY MENU FIX */
 const buyBtn=document.getElementById("buyBtn");
 const buyMenu=document.getElementById("buyMenu");
 
-buyBtn.onclick=()=>{
-  const open = buyMenu.classList.contains("opacity-100");
-
-  buyMenu.classList.toggle("opacity-100",!open);
-  buyMenu.classList.toggle("scale-100",!open);
-  buyMenu.classList.toggle("opacity-0",open);
-  buyMenu.classList.toggle("scale-95",open);
-  buyMenu.classList.toggle("pointer-events-none",open);
+buyBtn.onclick = () => {
+  buyMenu.classList.toggle("show");
 };
 
 /* text animation */
@@ -343,20 +347,20 @@ const w2=["компьютера","ноутбука"];
 let i=0;
 
 setInterval(()=>{
-  word1.classList.add("fade-out");
-  setTimeout(()=>{
-    i=(i+1)%w1.length;
-    word1.textContent=w1[i];
-    word1.classList.remove("fade-out");
-  },300);
+word1.classList.add("fade-out");
+setTimeout(()=>{
+i=(i+1)%w1.length;
+word1.textContent=w1[i];
+word1.classList.remove("fade-out");
+},300);
 },3000);
 
 setInterval(()=>{
-  word2.classList.add("fade-out");
-  setTimeout(()=>{
-    word2.textContent=w2[i];
-    word2.classList.remove("fade-out");
-  },300);
+word2.classList.add("fade-out");
+setTimeout(()=>{
+word2.textContent=w2[i];
+word2.classList.remove("fade-out");
+},300);
 },3000);
 
 </script>
