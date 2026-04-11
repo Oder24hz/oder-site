@@ -38,7 +38,7 @@ canvas{
   pointer-events:none;
 }
 
-/* карточки */
+/* cards */
 .card{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
@@ -58,7 +58,7 @@ canvas{
   box-shadow: 0 0 40px rgba(255,255,255,0.12);
 }
 
-/* кнопка */
+/* main button */
 .btn{
   border:1px solid rgba(255,255,255,0.6);
   border-radius:1rem;
@@ -76,6 +76,7 @@ canvas{
   transform:scale(1.05);
 }
 
+/* swipe */
 .btn::after{
   content:"";
   position:absolute;
@@ -89,65 +90,91 @@ canvas{
   transform:translateX(100%);
 }
 
-/* 🔥 FIX MENU — ВАЖНО */
-#buyMenu{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%) translateY(10px);
-  margin-top:12px;
+/* ===================== */
+/* 🍏 BUY MENU (APPLE FIX) */
+/* ===================== */
 
-  z-index:99999;
+#buyMenu{
+  position:fixed;
+  top:320px;
+  left:50%;
+  transform:translateX(-50%) scale(0.92);
+
+  z-index:999999;
 
   opacity:0;
   pointer-events:none;
 
-  transition:.25s ease;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
-  background:rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:18px;
 
   padding:14px;
   width:260px;
+
+  transition: opacity .2s ease;
 }
 
-/* open state */
+/* apple spring animation */
+@keyframes applePop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.92);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px) scale(1.02);
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0px) scale(1);
+  }
+}
+
 #buyMenu.show{
   opacity:1;
-  transform:translateX(-50%) translateY(0px);
   pointer-events:auto;
+  animation: applePop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* PAY BUTTONS — БЕЛЫЕ + МЯГКИЙ ПЕРЕЛИВ */
+/* ===================== */
+/* 🍏 PAY BUTTONS (APPLE CLEAN) */
+/* ===================== */
+
 .pay-btn{
   display:block;
   width:100%;
   text-align:center;
-  padding:10px;
+  padding:11px;
   margin-bottom:8px;
 
-  border-radius:12px;
+  border-radius:14px;
   font-weight:600;
 
-  color:#111;
-  background:linear-gradient(120deg,#ffffff,#f2f2f2,#ffffff);
+  color:rgba(0,0,0,0.85);
+
+  background:linear-gradient(120deg,#fff,#f5f5f7,#fff);
 
   position:relative;
   overflow:hidden;
 
-  transition:.25s;
+  transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
 }
 
-/* subtle shine (НЕ СИЛЬНЫЙ) */
+/* soft shine */
 .pay-btn::after{
   content:"";
   position:absolute;
   inset:-200%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-  animation:shine 5s linear infinite;
-  opacity:0.4;
-  pointer-events:none;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation:shine 6s linear infinite;
+  opacity:0.35;
 }
 
 @keyframes shine{
@@ -156,7 +183,8 @@ canvas{
 }
 
 .pay-btn:hover{
-  transform:scale(1.03);
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 /* scroll reveal */
@@ -208,23 +236,17 @@ canvas{
   </div>
 
   <div class="card text-center relative">
-
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
     </button>
 
-    <!-- MENU FIXED -->
     <div id="buyMenu">
-
       <a href="https://t.me/OderOptimization" target="_blank" class="pay-btn">Telegram</a>
-
       <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="pay-btn">DonationAlerts</a>
-
       <a href="https://new.donatepay.ru/@1292052" target="_blank" class="pay-btn">DonatePay</a>
-
     </div>
-
   </div>
+
 </section>
 
 <!-- PRICES -->
@@ -283,7 +305,6 @@ canvas{
 </footer>
 
 <script>
-/* particles */
 const c=document.getElementById("particles"),x=c.getContext("2d");
 function r(){c.width=innerWidth;c.height=innerHeight}r();
 addEventListener("resize",r);
@@ -298,10 +319,8 @@ let p=[...Array(80)].map(()=>({
 function draw(){
   x.clearRect(0,0,c.width,c.height);
 
-  for(let i=0;i<p.length;i++){
-    let e=p[i];
+  p.forEach(e=>{
     e.x+=e.dx; e.y+=e.dy;
-
     if(e.x<0||e.x>c.width)e.dx*=-1;
     if(e.y<0||e.y>c.height)e.dy*=-1;
 
@@ -309,7 +328,7 @@ function draw(){
     x.beginPath();
     x.arc(e.x,e.y,1.4,0,Math.PI*2);
     x.fill();
-  }
+  });
 
   requestAnimationFrame(draw);
 }
@@ -323,7 +342,7 @@ const obs=new IntersectionObserver(entries=>{
 });
 document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
 
-/* BUY MENU FIX */
+/* BUY MENU */
 const buyBtn=document.getElementById("buyBtn");
 const buyMenu=document.getElementById("buyMenu");
 
