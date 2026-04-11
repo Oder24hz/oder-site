@@ -46,6 +46,8 @@ canvas{
   backdrop-filter: blur(10px);
   box-shadow: 0 0 25px rgba(255,255,255,0.05);
   padding:20px;
+  position:relative;
+  z-index:1;
 }
 
 .card-hover{
@@ -56,7 +58,7 @@ canvas{
   box-shadow: 0 0 40px rgba(255,255,255,0.12);
 }
 
-/* кнопка купить */
+/* кнопка */
 .btn{
   border:1px solid rgba(255,255,255,0.6);
   border-radius:1rem;
@@ -74,7 +76,6 @@ canvas{
   transform:scale(1.05);
 }
 
-/* swipe */
 .btn::after{
   content:"";
   position:absolute;
@@ -88,76 +89,74 @@ canvas{
   transform:translateX(100%);
 }
 
-/* BUY MENU FIX */
+/* 🔥 FIX MENU — ВАЖНО */
 #buyMenu{
   position:absolute;
   left:50%;
-  transform:translateX(-50%);
+  transform:translateX(-50%) translateY(10px);
   margin-top:12px;
 
-  z-index:9999;
+  z-index:99999;
 
   opacity:0;
-  scale:0.95;
   pointer-events:none;
+
   transition:.25s ease;
+
+  background:rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;
+
+  padding:14px;
+  width:260px;
 }
 
+/* open state */
 #buyMenu.show{
   opacity:1;
-  scale:1;
+  transform:translateX(-50%) translateY(0px);
   pointer-events:auto;
 }
 
-/* PAY BUTTONS */
+/* PAY BUTTONS — БЕЛЫЕ + МЯГКИЙ ПЕРЕЛИВ */
 .pay-btn{
   display:block;
   width:100%;
   text-align:center;
   padding:10px;
+  margin-bottom:8px;
+
   border-radius:12px;
   font-weight:600;
-  color:black;
+
+  color:#111;
+  background:linear-gradient(120deg,#ffffff,#f2f2f2,#ffffff);
+
   position:relative;
   overflow:hidden;
+
+  transition:.25s;
 }
 
-/* shimmer */
+/* subtle shine (НЕ СИЛЬНЫЙ) */
 .pay-btn::after{
   content:"";
   position:absolute;
   inset:-200%;
-  animation:shine 4s linear infinite;
-  opacity:.7;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation:shine 5s linear infinite;
+  opacity:0.4;
+  pointer-events:none;
 }
 
 @keyframes shine{
-  0%{transform:translateX(-30%);}
-  100%{transform:translateX(30%);}
+  0%{transform:translateX(-20%);}
+  100%{transform:translateX(20%);}
 }
 
-/* TELEGRAM */
-.tg{
-  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
-}
-.tg::after{
-  background:linear-gradient(120deg,#fff,#3aa6ff,#fff);
-}
-
-/* DONATIONALERTS */
-.da{
-  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
-}
-.da::after{
-  background:linear-gradient(120deg,#fff,#ff8c00,#fff);
-}
-
-/* DONATEPAY */
-.dp{
-  background:linear-gradient(120deg,#fff,#a855f7,#fff);
-}
-.dp::after{
-  background:linear-gradient(120deg,#fff,#a855f7,#fff);
+.pay-btn:hover{
+  transform:scale(1.03);
 }
 
 /* scroll reveal */
@@ -171,7 +170,6 @@ canvas{
   transform:translateY(0);
 }
 
-/* text animation */
 .fade-word{
   display:inline-block;
   transition:opacity .4s, transform .4s;
@@ -210,19 +208,23 @@ canvas{
   </div>
 
   <div class="card text-center relative">
+
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
     </button>
 
-    <div id="buyMenu" class="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-4 text-white text-sm space-y-2">
+    <!-- MENU FIXED -->
+    <div id="buyMenu">
 
-      <a href="https://t.me/OderOptimization" target="_blank" class="pay-btn tg">Telegram</a>
-      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="pay-btn da">DonationAlerts</a>
-      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="pay-btn dp">DonatePay</a>
+      <a href="https://t.me/OderOptimization" target="_blank" class="pay-btn">Telegram</a>
+
+      <a href="https://www.donationalerts.com/r/oder24hz" target="_blank" class="pay-btn">DonationAlerts</a>
+
+      <a href="https://new.donatepay.ru/@1292052" target="_blank" class="pay-btn">DonatePay</a>
 
     </div>
-  </div>
 
+  </div>
 </section>
 
 <!-- PRICES -->
@@ -307,18 +309,6 @@ function draw(){
     x.beginPath();
     x.arc(e.x,e.y,1.4,0,Math.PI*2);
     x.fill();
-
-    for(let j=i+1;j<p.length;j++){
-      let e2=p[j];
-      let d=Math.hypot(e.x-e2.x,e.y-e2.y);
-      if(d<120){
-        x.strokeStyle="rgba(255,255,255,"+(1-d/120)*0.2+")";
-        x.beginPath();
-        x.moveTo(e.x,e.y);
-        x.lineTo(e2.x,e2.y);
-        x.stroke();
-      }
-    }
   }
 
   requestAnimationFrame(draw);
@@ -337,7 +327,7 @@ document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
 const buyBtn=document.getElementById("buyBtn");
 const buyMenu=document.getElementById("buyMenu");
 
-buyBtn.onclick = () => {
+buyBtn.onclick=()=>{
   buyMenu.classList.toggle("show");
 };
 
