@@ -16,7 +16,7 @@ body {
   overflow-x:hidden;
 }
 
-/* canvas */
+/* canvas particles */
 canvas{
   position:fixed;
   inset:0;
@@ -25,20 +25,19 @@ canvas{
 }
 
 /* GLASS */
-.glass {
+.card{
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-radius: 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
 }
 
-/* hover */
-.glass-hover{
-  transition:.25s;
+.card-hover{
+  transition:.3s;
 }
-.glass-hover:hover{
-  transform: translateY(-4px);
+.card-hover:hover{
+  transform:translateY(-4px);
   background: rgba(255,255,255,0.09);
 }
 
@@ -46,7 +45,7 @@ canvas{
 .btn{
   border:1px solid rgba(255,255,255,.5);
   border-radius:14px;
-  padding:12px 22px;
+  padding:12px 24px;
   transition:.3s;
   cursor:pointer;
 }
@@ -56,24 +55,24 @@ canvas{
   transform:scale(1.05);
 }
 
-/* glow */
+/* glow title */
 @keyframes glowPulse {
   0% { text-shadow:0 0 6px rgba(255,255,255,.2); }
-  50% { text-shadow:0 0 25px rgba(255,255,255,.8); }
+  50% { text-shadow:0 0 25px rgba(255,255,255,.8), 0 0 60px rgba(255,255,255,.2); }
   100% { text-shadow:0 0 6px rgba(255,255,255,.2); }
 }
 .glow-title{
   animation: glowPulse 2.5s infinite ease-in-out;
 }
 
-/* text */
+/* fade text */
 .fade-word{
-  transition:.4s;
   display:inline-block;
+  transition:.4s;
 }
 .fade-out{
   opacity:0;
-  transform:translateY(6px);
+  transform:translateY(8px);
 }
 </style>
 </head>
@@ -82,11 +81,11 @@ canvas{
 
 <canvas id="particles"></canvas>
 
-<!-- HEADER -->
+<!-- HERO -->
 <header class="text-center py-20 px-4">
-  <h1 class="text-5xl font-bold glow-title mb-4">Oder24Hz</h1>
+  <h1 class="text-5xl sm:text-6xl font-bold mb-4 glow-title">Oder24Hz</h1>
 
-  <p class="text-gray-300">
+  <p class="text-gray-300 text-lg">
     <span id="word1">Лучшая</span>
     оптимизация для твоего
     <span id="word2">компьютера</span>
@@ -94,27 +93,26 @@ canvas{
 </header>
 
 <!-- WHAT I OFFER -->
-<section class="px-4 mb-10">
-  <div class="glass glass-hover p-5 max-w-md mx-auto text-center">
+<section class="max-w-3xl mx-auto px-4 space-y-6">
+
+  <div class="card p-6 text-center">
     <h2 class="text-2xl font-semibold mb-4">Что я предлагаю</h2>
-    <ul class="space-y-2 text-gray-200 text-sm">
+    <ul class="space-y-2 text-gray-200">
       <li>• Оптимизация Windows — ускорение, удаление мусора</li>
       <li>• Bluestacks — FPS, плавность, сенса</li>
       <li>• Быстрая настройка Bluestacks</li>
     </ul>
   </div>
-</section>
 
-<!-- BUY -->
-<section class="px-4 mb-12">
-  <div class="glass glass-hover p-5 max-w-md mx-auto text-center relative">
+  <!-- BUY -->
+  <div class="card p-6 text-center relative">
 
     <button id="buyBtn" class="btn font-semibold">
       Купить оптимизацию
     </button>
 
     <div id="buyMenu"
-         class="absolute left-1/2 -translate-x-1/2 mt-4 w-56 glass p-3 text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
+      class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-4 text-sm space-y-2 opacity-0 scale-95 pointer-events-none transition-all duration-300">
 
       <a href="https://t.me/OderOptimization" class="block py-2 bg-blue-600 rounded-lg">Telegram</a>
       <a href="https://www.donationalerts.com/r/oder24hz" class="block py-2 bg-green-600 rounded-lg">DonationAlerts</a>
@@ -122,24 +120,98 @@ canvas{
 
     </div>
   </div>
+
 </section>
 
+<!-- PRICES -->
+<section class="max-w-3xl mx-auto px-4 py-12">
+  <h2 class="text-xl font-semibold text-center mb-6">Цены</h2>
+
+  <div class="grid gap-4">
+
+    <div class="card card-hover p-4 flex justify-between">
+      <span>Оптимизация Windows</span><span>150₽</span>
+    </div>
+
+    <div class="card card-hover p-4 flex justify-between">
+      <span>Оптимизация Bluestacks</span><span>250₽</span>
+    </div>
+
+    <div class="card card-hover p-4 flex justify-between">
+      <span>Настройка Bluestacks</span><span>50₽</span>
+    </div>
+
+    <div class="card card-hover p-4 flex justify-between">
+      <span>Удаление вирусов</span><span>100₽</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-5xl mx-auto px-4 py-16">
+
+  <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        Одер не бросил в беде помог оптимка в космоса ФПС ахуел от жизни
+      </p>
+      <p class="mt-3 text-sm font-semibold">— ianchik</p>
+    </div>
+
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        Всем советую блюстаксы от одера, на rtx 4060ti и ryzen 5 7500f получаю стабильные 400 фпс
+      </p>
+      <p class="mt-3 text-sm font-semibold">— linck</p>
+    </div>
+
+    <div class="card p-5">
+      <p class="text-sm text-gray-300">
+        Жесткий фпс на i3 12100f и gtx 1650, не ожидал такой ахуеной оптимизации, фризы исчезли
+      </p>
+      <p class="mt-3 text-sm font-semibold">— Fa1ston</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- TELEGRAM REVIEWS -->
+<section class="text-center py-10">
+  <a href="https://t.me/Oder_optim" class="btn font-semibold inline-block">
+    Отзывы Telegram
+  </a>
+</section>
+
+<footer class="text-center text-gray-500 text-sm py-6">
+  © 2026 Oder24Hz
+</footer>
+
 <script>
-/* particles */
+/* particles with connections */
 const c=document.getElementById("particles"),x=c.getContext("2d");
 
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();addEventListener("resize",resize);
+function resize(){
+  c.width=innerWidth;
+  c.height=innerHeight;
+}
+resize();
+addEventListener("resize",resize);
 
-let p=[...Array(70)].map(()=>({
+let p=[...Array(100)].map(()=>({
   x:Math.random()*c.width,
   y:Math.random()*c.height,
   s:Math.random()*2,
-  dx:(Math.random()-.5)*0.6,
-  dy:(Math.random()-.5)*0.6
+  dx:(Math.random()-.5)*0.5,
+  dy:(Math.random()-.5)*0.5
 }));
 
-function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function dist(a,b){
+  return Math.hypot(a.x-b.x,a.y-b.y);
+}
 
 function loop(){
   x.clearRect(0,0,c.width,c.height);
@@ -176,7 +248,7 @@ function loop(){
 }
 loop();
 
-/* menu */
+/* buy menu */
 buyBtn.onclick=()=>{
   buyMenu.classList.toggle("opacity-100");
   buyMenu.classList.toggle("scale-100");
@@ -185,7 +257,7 @@ buyBtn.onclick=()=>{
   buyMenu.classList.toggle("pointer-events-none");
 };
 
-/* text */
+/* text animation */
 const w1=["Лучшая","Прекрасная"];
 const w2=["компьютера","ноутбука"];
 let i=0;
