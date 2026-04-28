@@ -5,319 +5,486 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>@OderOptimization</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rubik:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box}
+
 body{
-  font-family:'Rubik',sans-serif;
-  background:#000;
-  color:#fff;
-  overflow-x:hidden;
+margin:0;
+font-family:'Montserrat',sans-serif;
+background:black;
+color:white;
+overflow:hidden;
 }
 
-/* canvas */
+/* NAVBAR */
+.navbar{
+position:fixed;
+top:0;
+width:100%;
+padding:15px 25px;
+display:flex;
+justify-content:space-between;
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+.logo{
+font-weight:900;
+font-size:18px;
+}
+
+.nav-links a{
+margin-left:25px;
+text-decoration:none;
+color:white;
+font-weight:800;
+opacity:0.85;
+}
+
+/* HERO */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+transition:.6s;
+}
+
+.hero.hide{
+opacity:0;
+transform:translateY(-50px);
+}
+
+.title{
+font-size:110px;
+font-weight:900;
+animation:pulse 2.5s infinite;
+}
+
+@keyframes pulse{
+0%{text-shadow:0 0 15px rgba(255,255,255,0.3);}
+50%{text-shadow:0 0 60px rgba(255,255,255,1);}
+100%{text-shadow:0 0 15px rgba(255,255,255,0.3);}
+}
+
+.hero p{
+margin-top:-10px;
+font-style:italic;
+opacity:0.8;
+}
+
+/* BUTTON */
+.button{
+margin-top:30px;
+padding:16px 60px;
+border-radius:12px;
+border:none;
+background:white;
+color:black;
+font-weight:900;
+cursor:pointer;
+box-shadow:0 0 25px rgba(255,255,255,0.5);
+}
+
+/* SERVICES */
+#services{
+opacity:0;
+pointer-events:none;
+transition:.6s;
+padding:120px 20px;
+}
+
+#services.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.services-title{
+text-align:center;
+font-size:42px;
+font-weight:900;
+margin-bottom:50px;
+text-shadow:0 0 25px rgba(255,255,255,0.6);
+}
+
+.services-container{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:30px;
+max-width:1000px;
+margin:auto;
+}
+
+.service{
+position:relative;
+padding:30px;
+border-radius:20px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+overflow:hidden;
+}
+
+.service-title{
+display:flex;
+justify-content:space-between;
+cursor:pointer;
+font-weight:700;
+text-shadow:0 0 10px rgba(255,255,255,0.3);
+}
+
+.price{
+font-size:38px;
+font-weight:900;
+margin:15px 0;
+text-shadow:0 0 15px rgba(255,255,255,0.3);
+}
+
+/* DESC */
+.desc{
+position:absolute;
+left:0;
+bottom:0;
+width:100%;
+background:rgba(0,0,0,0.95);
+padding:20px;
+border-radius:0 0 20px 20px;
+
+transform:translateY(100%);
+opacity:0;
+transition:.3s;
+}
+
+.desc.show{
+transform:translateY(0);
+opacity:1;
+}
+
+/* BUY */
+.buy-global{
+margin-top:150px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.buy-global button{
+padding:16px 40px;
+border-radius:12px;
+border:none;
+background:white;
+color:black;
+font-weight:900;
+cursor:pointer;
+box-shadow:0 0 25px rgba(255,255,255,0.5);
+}
+
+/* MODAL */
+.modal{
+display:flex;
+opacity:0;
+pointer-events:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,0.7);
+transition:.3s;
+}
+
+.modal.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.modal-content{
+background:#111;
+padding:25px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+position:relative;
+display:flex;
+flex-direction:column;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+cursor:pointer;
+}
+
+a.white-link{
+color:white;
+font-weight:900;
+text-decoration:none;
+text-shadow:0 0 10px rgba(255,255,255,0.8);
+}
+
+/* CANVAS */
 canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
 
-/* GLASS */
-.card{
-  background:rgba(255,255,255,0.010);
-  border:1px solid rgba(255,255,255,0.03);
-  backdrop-filter:blur(4px);
-  border-radius:16px;
-  font-weight:600;
+/* MOBILE */
+@media (max-width:700px){
+.services-container{
+grid-template-columns:1fr;
+}
 }
 
-/* button */
-.btn{
-  border:1px solid rgba(255,255,255,.5);
-  border-radius:14px;
-  padding:12px 24px;
-  cursor:pointer;
-  transition:.3s;
-}
-.btn:hover{
-  background:#fff;
-  color:#000;
-  transform:scale(1.05);
+/* УБРАТЬ СКРОЛЛБАР В СОГЛАШЕНИИ */
+#agreementModal .modal-content{
+overflow:auto;
+scrollbar-width:none;
 }
 
-/* TITLE */
-@keyframes pulseGlow{
-  0%{
-    text-shadow:0 0 8px rgba(255,255,255,0.15);
-    transform:scale(1);
-  }
-  50%{
-    text-shadow:0 0 35px rgba(255,255,255,0.45);
-    transform:scale(1.02);
-  }
-  100%{
-    text-shadow:0 0 8px rgba(255,255,255,0.15);
-    transform:scale(1);
-  }
+#agreementModal .modal-content::-webkit-scrollbar{
+display:none;
 }
-
-.glow-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:110px;
-  letter-spacing:3px;
-  font-weight:400;
-  color:rgba(255,255,255,0.65);
-  animation:pulseGlow 2.8s infinite ease-in-out;
-  text-transform:none;
-}
-
-/* spacing */
-.spacer-lg{ margin-top:45px; }
-.spacer-xl{ margin-top:60px; }
-
-/* dropdown */
-.dropdown{
-  position:absolute;
-  top:calc(100% + 10px);
-  left:50%;
-  transform:translateX(-50%) scale(.95);
-  width:220px;
-  z-index:9999;
-
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-}
-
-.dropdown.active{
-  opacity:1;
-  transform:translateX(-50%) scale(1);
-  pointer-events:auto;
-}
-
-#buyWrapper{
-  position:relative;
-  z-index:10;
-}
-
-/* cursor particles */
-.particle{
-  position:fixed;
-  width:4px;
-  height:4px;
-  background:white;
-  border-radius:50%;
-  pointer-events:none;
-  opacity:0.15;
-  filter:blur(1px);
-  animation:fadeOut 1.2s ease-out forwards;
-}
-
-@keyframes fadeOut{
-  to{
-    opacity:0;
-    transform:scale(2);
-  }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+<div class="navbar">
+<div class="logo">@OderOptimization</div>
+<div class="nav-links">
+<a href="https://t.me/Oder_optim">Reviews</a>
+<a href="https://t.me/Oderrrr">Channel</a>
+<a href="https://t.me/OderOptimization">Support</a>
+</div>
+</div>
 
-<!-- HERO -->
-<header class="text-center py-20 px-4">
-  <h1 class="glow-title">Oder24hz</h1>
-</header>
+<div class="hero" id="hero">
+<h1 class="title">Oder24hz</h1>
+<p>Optimization changes the rules of the game.</p>
+<button class="button" onclick="openServices()">Store</button>
+</div>
 
-<!-- WHAT -->
-<section class="max-w-xl mx-auto px-4 mb-8 spacer-lg">
-  <div class="card p-6 text-center">
-    <h2 class="text-2xl mb-4">Что я предлагаю</h2>
-    <ul class="text-gray-200 space-y-2 text-sm">
-      <li>• Оптимизация Windows — ускорение, удаление мусора</li>
-      <li>• Bluestacks — FPS, плавность, сенса</li>
-      <li>• Быстрая настройка Bluestacks</li>
-    </ul>
-  </div>
-</section>
+<canvas id="particles"></canvas>
 
-<!-- BUY -->
-<section class="max-w-2xl mx-auto px-4 mb-10 text-center spacer-lg">
+<div id="services">
 
-  <div id="buyWrapper" class="inline-block">
+<div class="services-title">
+@OderOptimization - Твоя система не думает - она действует
+</div>
 
-    <button id="buyBtn" class="btn font-semibold">
-      Купить оптимизацию
-    </button>
+<div class="services-container">
 
-    <div id="buyMenu" class="dropdown card p-3">
-      <a class="block py-2 bg-blue-600 rounded mb-2"
-         href="https://t.me/OderOptimization"
-         target="_blank">
-        Telegram
-      </a>
+<div class="service">
+<div class="service-title" onclick="toggle(this)">Optimization Windows ▼</div>
+<div class="price">200₽ | 120₴</div>
+<div class="desc">Удаление встроенных программ Windows, отключение ненужных служб, разблокировка возможностей компьютера, стабильность системы, повышение фпс и устранение инпут лага/фризов.</div>
+</div>
 
-      <a class="block py-2 bg-green-600 rounded mb-2"
-         href="https://www.donationalerts.com/r/oder24hz"
-         target="_blank">
-        DonationAlerts
-      </a>
+<div class="service">
+<div class="service-title" onclick="toggle(this)">Optimization Bluestacks ▼</div>
+<div class="price">400₽ | 240₴</div>
+<div class="desc">Глубокая настройка эмулятора, разблокировка ядер, отключение ненужных служб, удаление ненужных встроенных программ, повышение фпс, устранение инпут лага/фризов.</div>
+</div>
 
-      <a class="block py-2 bg-purple-600 rounded"
-         href="https://new.donatepay.ru/@1292052"
-         target="_blank">
-        DonatePay
-      </a>
-    </div>
+<div class="service">
+<div class="service-title" onclick="toggle(this)">Virus Removal ▼</div>
+<div class="price">150₽ | 90₴</div>
+<div class="desc">Глубокая проверка компьютера на трояны, сетевые черви, шпионские программы, майнеры, стиллеры.</div>
+</div>
 
-  </div>
+<div class="service">
+<div class="service-title" onclick="toggle(this)">Configuring Emulator ▼</div>
+<div class="price">100₽ | 60₴</div>
+<div class="desc">Настройка любого эмулятора под ваш компьютер для получение высокого фпс и стабильности эмулятора.</div>
+</div>
 
-</section>
+</div>
 
-<!-- PRICES -->
-<section class="max-w-2xl mx-auto px-4 mb-10 spacer-xl">
-  <h2 class="text-center text-2xl font-bold mb-4">Цены</h2>
+<div class="buy-global">
+<button onclick="openModal('rub')">Купить за рубли</button>
+<button onclick="openModal('uah')">Купить за гривны</button>
+<button onclick="location.href='https://t.me/OderOptimization'">Купить переводом</button>
+</div>
 
-  <div class="space-y-3">
-    <div class="card p-4 flex justify-between">Optimization Windows <span>150₽</span></div>
-    <div class="card p-4 flex justify-between">Optimization Bluestacks <span>250₽</span></div>
-    <div class="card p-4 flex justify-between">Настройка Bluestacks <span>50₽</span></div>
-    <div class="card p-4 flex justify-between">Удаление Вирусов <span>100₽</span></div>
-  </div>
-</section>
+</div>
 
-<!-- REVIEWS -->
-<section class="max-w-3xl mx-auto px-4 mb-10 spacer-xl">
-  <h2 class="text-2xl font-semibold text-center mb-10">Отзывы клиентов</h2>
+<!-- МОДАЛКА -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<div class="close" onclick="closeModal()">✖</div>
 
-  <div class="grid md:grid-cols-3 gap-6">
+<p>Убедитесь что у вас работает Telegram</p>
 
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">Бомжу минет дешевле стоит чем оптимизация от Oder'a, всем советую</p>
-      <p class="mt-3 text-sm font-semibold">— simpala</p>
-    </div>
+<p>
+После оплаты вам нужно будет написать на этот аккаунт со скриншотом оплаты:<br><br>
 
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">Брал оптимку винды, за свою цену классная тема, моментально делают, отвечают сразу. вообщем хуйни не сделают</p>
-      <p class="mt-3 text-sm font-semibold">— #cаня феофiловъ</p>
-    </div>
+<a href="https://t.me/OderOptimization" class="white-link">
+@OderOptimization
+</a>
+</p>
 
-    <div class="card p-5">
-      <p class="text-sm text-gray-300">Оптимизация пушка, чувствуется прирост в 2 раза, покупайте у него: @OderOptimization</p>
-      <p class="mt-3 text-sm font-semibold">— апсалют</p>
-    </div>
+<p>
+Оптимизация проходит через программы Anydesk, Rudesktop<br>
+<span style="opacity:0.7;">
+(не скачивайте сами, в Telegram я скину нужные файлы)
+</span>
+</p>
 
-  </div>
-</section>
+<p>
+При покупке любой услуги вы принимаете 
+<a href="#" onclick="openAgreement()" class="white-link">
+Пользовательское соглашение
+</a>
+</p>
 
-<!-- TELEGRAM -->
-<section class="text-center py-10 spacer-lg">
-  <a href="https://t.me/Oder_optim" target="_blank" class="btn font-semibold inline-block">
-    Отзывы Telegram
-  </a>
-</section>
+<button id="payBtn" class="button">Купить</button>
 
-<footer class="text-center text-gray-500 text-sm py-6">
-  Страх крутой поцык😂🤙
-</footer>
+</div>
+</div>
+
+<!-- СОГЛАШЕНИЕ (ПОЛНОЕ) -->
+<div class="modal" id="agreementModal">
+<div class="modal-content" style="max-width:600px; max-height:80vh; overflow:auto;">
+<div class="close" onclick="closeAgreement()">✖</div>
+
+
+<h2>Пользовательское соглашение</h2>
+
+<p><b>1. Предмет соглашения</b><br><br>
+Мы предлагаем программные решения и консультации, направленные на ускорение и улучшение производительности вашего компьютера. Важно понимать, что мы не являемся производителем или разработчиком операционных систем или аппаратного обеспечения. Наши услуги направлены на оптимизацию существующих настроек и программ.
+</p>
+
+<p><b>2. Ответственность сторон</b><br><br>
+Покупатель принимает на себя полную ответственность за состояние своего компьютера. Служба поддержки нашей компании не несет ответственности за любые неисправности, сбои, потерю данных или другие негативные последствия, которые могут возникнуть в процессе или после применения наших оптимизаций. Мы не можем гарантировать совместимость наших решений со всеми конфигурациями программного обеспечения и оборудования, а также с любыми сторонними программами, установленными на вашем устройстве.
+</p>
+
+<p><b>3. Политика возврата средств</b><br><br>
+В соответствии с характером предоставляемых нами нематериальных услуг (цифровые продукты, консультации, удаленная помощь), возврат денежных средств за приобретенные оптимизации не предусмотрен. Мы вкладываем значительные ресурсы в разработку и поддержку наших решений. Получив доступ к услуге или скачав цифровой продукт, вы тем самым подтверждаете свое согласие с данным условием.
+</p>
+
+<p><b>4. Обязательства покупателя</b><br><br>
+Приобретая наши услуги, вы подтверждаете, что:<br><br>
+— Вы полностью осознаете риски, связанные с внесением изменений в настройки вашего компьютера.<br>
+— Вы самостоятельно несете ответственность за резервное копирование всех важных данных перед применением каких-либо оптимизаций.<br>
+— Вы согласны с тем, что гарантия на ваше оборудование или программное обеспечение может быть аннулирована производителем в результате самостоятельного вмешательства, включая применение наших оптимизаций.
+</p>
+
+<p><b>5. Завершение соглашения</b><br><br>
+Используя наш сайт и приобретая наши услуги, вы выражаете полное согласие с условиями настоящего Пользовательского соглашения. В случае несогласия с любым из пунктов, пожалуйста, воздержитесь от использования нашего сервиса.
+</p>
+
+</div>
+</div>
 
 <script>
-/* dropdown */
-const btn=document.getElementById("buyBtn");
-const menu=document.getElementById("buyMenu");
+function openServices(){
+document.getElementById("hero").classList.add("hide");
+setTimeout(()=>{
+document.getElementById("hero").style.display="none";
+document.getElementById("services").classList.add("show");
+},400);
+}
 
-btn.onclick=()=>{
-  menu.classList.toggle("active");
-};
+function toggle(el){
+let current = el.parentElement.querySelector(".desc");
 
-/* particles */
-const canvas=document.getElementById("bg");
+if(current.classList.contains("show")){
+current.classList.remove("show");
+return;
+}
+
+document.querySelectorAll(".desc").forEach(d=>{
+d.classList.remove("show");
+});
+
+current.classList.add("show");
+}
+
+function openModal(type){
+let modal=document.getElementById("modal");
+let btn=document.getElementById("payBtn");
+
+if(type==="rub"){
+btn.onclick=()=>window.open("https://www.donationalerts.com/r/oder24hz");
+}
+if(type==="uah"){
+btn.onclick=()=>window.open("https://new.donatepay.ru/@1292052");
+}
+
+modal.classList.add("show");
+}
+
+function closeModal(){
+document.getElementById("modal").classList.remove("show");
+}
+
+function openAgreement(){
+document.getElementById("agreementModal").classList.add("show");
+}
+
+function closeAgreement(){
+document.getElementById("agreementModal").classList.remove("show");
+}
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
-addEventListener("resize",()=>{
-  canvas.width=innerWidth;
-  canvas.height=innerHeight;
+let particles=[];
+for(let i=0;i<60;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+dx:(Math.random()-0.5)*0.5,
+dy:(Math.random()-0.5)*0.5
 });
-
-let points=[];
-
-for(let i=0;i<70;i++){
-  points.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    vx:(Math.random()-0.5)*0.4,
-    vy:(Math.random()-0.5)*0.4
-  });
 }
 
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  for(let i=0;i<points.length;i++){
-    let p=points[i];
+particles.forEach(p=>{
+p.x+=p.dx;
+p.y+=p.dy;
 
-    p.x+=p.vx;
-    p.y+=p.vy;
+if(p.x<=0 || p.x>=canvas.width) p.dx*=-1;
+if(p.y<=0 || p.y>=canvas.height) p.dy*=-1;
 
-    if(p.x<0||p.x>canvas.width) p.vx*=-1;
-    if(p.y<0||p.y>canvas.height) p.vy*=-1;
+ctx.fillRect(p.x,p.y,2,2);
 
-    ctx.fillStyle="rgba(255,255,255,0.25)";
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
-    ctx.fill();
-
-    for(let j=i+1;j<points.length;j++){
-      let p2=points[j];
-      let dist=Math.hypot(p.x-p2.x,p.y-p2.y);
-
-      if(dist<120){
-        ctx.strokeStyle=`rgba(255,255,255,${1-dist/120})`;
-        ctx.beginPath();
-        ctx.moveTo(p.x,p.y);
-        ctx.lineTo(p2.x,p2.y);
-        ctx.stroke();
-      }
-    }
-  }
-
-  requestAnimationFrame(draw);
+particles.forEach(p2=>{
+let dist=Math.hypot(p.x-p2.x,p.y-p2.y);
+if(dist<120){
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p2.x,p2.y);
+ctx.strokeStyle="rgba(255,255,255,0.08)";
+ctx.stroke();
 }
-draw();
-
-/* cursor particles */
-document.addEventListener("mousemove",(e)=>{
-  const dot=document.createElement("div");
-  dot.className="particle";
-  dot.style.left=e.clientX+"px";
-  dot.style.top=e.clientY+"px";
-  document.body.appendChild(dot);
-
-  setTimeout(()=>dot.remove(),1200);
+});
 });
 
-/* title animation */
-const titles=[
-  "Лучшая",
-  "Оптимизация",
-  "На рынке",
-  "@OderOptimization"
-];
-
-let t=0;
-
-setInterval(()=>{
-  document.title=titles[t];
-  t=(t+1)%titles.length;
-},2000);
+requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
